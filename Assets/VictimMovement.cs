@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour
+public class VictimMovement : MonoBehaviour
 {
     private GameObject player;
 
@@ -11,7 +11,6 @@ public class EnemyMovement : MonoBehaviour
     
     public float maxHealth = 100;
     public float speed = 3;
-    public float damage = 10;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,7 +31,7 @@ public class EnemyMovement : MonoBehaviour
         if (other.tag == "Player")
         {
             // Spieler gesichtet
-            state = MovementState.ANGRY;
+            state = MovementState.SCARED;
         }
     }
 
@@ -41,20 +40,8 @@ public class EnemyMovement : MonoBehaviour
         if (other.tag == "Player")
         {
             // Spieler aus dem Sichtfeld verschwunden
-            
-            // letzte bekannte Position abchecken
-            idleTargetPos = other.transform.position;
-            
             // Weiter rumlaufen
             state = MovementState.IDLE;
-        }
-    }
-
-    void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            Attack();
         }
     }
 
@@ -96,12 +83,6 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    void Attack()
-    {
-        // TODO
-        Debug.Log("ATTACKEEEEEEEEEEEE");
-    }
-
     public void SetState(MovementState newState)
     {
         state = newState;
@@ -117,3 +98,4 @@ public class EnemyMovement : MonoBehaviour
         IDLE, ANGRY, SCARED
     }
 }
+
