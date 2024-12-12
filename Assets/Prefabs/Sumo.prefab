@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1810597777830940150}
   - component: {fileID: 365785392821775133}
   - component: {fileID: 7988950706562695751}
+  - component: {fileID: 6066363624134108060}
   - component: {fileID: 1065989949633546002}
   - component: {fileID: 1559723008720635368}
   m_Layer: 0
@@ -136,6 +137,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &6066363624134108060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4005414645683657261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feb5d816e6284a37addcbb3053f5059e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 200
+  viewDistance: 10
 --- !u!114 &1065989949633546002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,12 +160,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4005414645683657261}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ac59c21858dd62c3bc72ab3c0a57ce5, type: 3}
+  m_Script: {fileID: 11500000, guid: 63593a396301c4706b147e2d2b83691b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 200
   speed: 1
-  damage: 15
 --- !u!50 &1559723008720635368
 Rigidbody2D:
   serializedVersion: 5

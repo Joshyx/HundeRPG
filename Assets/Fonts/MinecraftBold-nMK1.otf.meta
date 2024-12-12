@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: dfe4f2d005d52a5418cf469a208bc449
+guid: ab1bbf0438d93a0fe9fc8c71845e4638
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Minecrafter Alt
+  - Minecraft
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

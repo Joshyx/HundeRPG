@@ -5,7 +5,8 @@ public class NPCMovement : MonoBehaviour
     private GameObject player;
 
     private MovementState state = MovementState.IDLE;
-    private Vector2 idleTargetPos;
+    [HideInInspector]
+    public Vector2 idleTargetPos;
     
     public float speed = 3;
     
@@ -20,16 +21,6 @@ public class NPCMovement : MonoBehaviour
     void Update()
     {
         Move();
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.tag == "Player")
-        {
-            // Spieler aus dem Sichtfeld verschwunden
-            // Weiter rumlaufen
-            state = MovementState.IDLE;
-        }
     }
 
     void Move() 
@@ -55,13 +46,23 @@ public class NPCMovement : MonoBehaviour
         if (Vector2.Distance(transform.position, idleTargetPos) < 0.1f)
         {
             // Wenn die Zielposition erreicht wurde, eine zufällige neue aussuchen
-            idleTargetPos = new Vector2(transform.position.x + Random.Range(-10, 10), transform.position.y + Random.Range(-10, 10));
+            RecalculateIdlePosition();
         }
+    }
+
+    public void RecalculateIdlePosition()
+    {
+        idleTargetPos = new Vector2(transform.position.x + Random.Range(-10, 10), transform.position.y + Random.Range(-10, 10));
     }
 
     public void SetState(MovementState newState)
     {
         state = newState;
+    }
+
+    public MovementState GetState()
+    {
+        return state;
     }
     
     public enum MovementState

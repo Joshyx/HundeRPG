@@ -6,9 +6,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public TextMeshProUGUI levelText;
+    public Animator tongue;
     
     public float maxHealth = 100f;
-    public float lickRadius = 2f;
+    public float lickRadius = 1.5f;
     
     private float currentHealth;
     private float level;
@@ -46,9 +47,10 @@ public class PlayerController : MonoBehaviour
             return;
         }
         
-        Debug.Log("Licked " + npc.name);
         level += 0.1f;
-        levelText.SetText("Level: " + level.ToString());
+        levelText.SetText("Level: " + level);
+        npc.GetComponent<NPCController>().SpottedPlayer();
+        tongue.SetTrigger("Lick");
     }
 
     private void OnDrawGizmos()
