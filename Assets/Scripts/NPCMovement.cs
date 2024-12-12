@@ -1,24 +1,19 @@
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour
+public class NPCMovement : MonoBehaviour
 {
     private GameObject player;
 
     private MovementState state = MovementState.IDLE;
     private Vector2 idleTargetPos;
     
-    private float health = 0;
-    
-    public float maxHealth = 100;
     public float speed = 3;
-    public float damage = 10;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         idleTargetPos = transform.position;
-        health = maxHealth;
     }
 
     // Update is called once per frame
@@ -27,34 +22,13 @@ public class EnemyMovement : MonoBehaviour
         Move();
     }
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "Player")
-        {
-            // Spieler gesichtet
-            state = MovementState.ANGRY;
-        }
-    }
-
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
             // Spieler aus dem Sichtfeld verschwunden
-            
-            // letzte bekannte Position abchecken
-            idleTargetPos = other.transform.position;
-            
             // Weiter rumlaufen
             state = MovementState.IDLE;
-        }
-    }
-
-    void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            Attack();
         }
     }
 
@@ -62,7 +36,7 @@ public class EnemyMovement : MonoBehaviour
     {
         Vector2 playerPos = player.transform.position;
         
-        switch (GetState())
+        switch (state)
         {
             case MovementState.IDLE:
                 // Zur nächsten Zielposition laufen
@@ -85,33 +59,11 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    void TakeDamage(float amount)
-    {
-        health -= amount;
-        SetState(MovementState.ANGRY);
-        
-        if (health <= 0)
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    void Attack()
-    {
-        // TODO
-        Debug.Log("ATTACKEEEEEEEEEEEE");
-    }
-
     public void SetState(MovementState newState)
     {
         state = newState;
     }
-
-    public MovementState GetState()
-    {
-        return state;
-    }
-
+    
     public enum MovementState
     {
         IDLE, ANGRY, SCARED

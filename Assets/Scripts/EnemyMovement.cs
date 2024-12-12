@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class VictimMovement : MonoBehaviour
+public class EnemyMovement : MonoBehaviour
 {
     private GameObject player;
 
@@ -11,6 +11,7 @@ public class VictimMovement : MonoBehaviour
     
     public float maxHealth = 100;
     public float speed = 3;
+    public float damage = 10;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,22 +27,25 @@ public class VictimMovement : MonoBehaviour
         Move();
     }
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "Player")
-        {
-            // Spieler gesichtet
-            state = MovementState.SCARED;
-        }
-    }
-
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
             // Spieler aus dem Sichtfeld verschwunden
+            
+            // letzte bekannte Position abchecken
+            idleTargetPos = other.transform.position;
+            
             // Weiter rumlaufen
             state = MovementState.IDLE;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            Attack();
         }
     }
 
@@ -49,7 +53,7 @@ public class VictimMovement : MonoBehaviour
     {
         Vector2 playerPos = player.transform.position;
         
-        switch (GetState())
+        switch (state)
         {
             case MovementState.IDLE:
                 // Zur nächsten Zielposition laufen
@@ -75,7 +79,7 @@ public class VictimMovement : MonoBehaviour
     void TakeDamage(float amount)
     {
         health -= amount;
-        SetState(MovementState.ANGRY);
+        state = MovementState.ANGRY;
         
         if (health <= 0)
         {
@@ -83,14 +87,9 @@ public class VictimMovement : MonoBehaviour
         }
     }
 
-    public void SetState(MovementState newState)
+    void Attack()
     {
-        state = newState;
-    }
-
-    public MovementState GetState()
-    {
-        return state;
+        player.GetComponent<PlayerController>().TakeDamage(damage);
     }
 
     public enum MovementState
@@ -98,4 +97,3 @@ public class VictimMovement : MonoBehaviour
         IDLE, ANGRY, SCARED
     }
 }
-
