@@ -2,18 +2,13 @@ using UnityEngine;
 
 class PlayerMovement : MonoBehaviour
 {
-    Rigidbody2D body;
-
     float horizontal;
     float vertical;
     float moveLimiter = 0.7f;
+    bool canMove = true;
 
     public float runSpeed = 5.0f;
 
-    void Start()
-    {
-        body = GetComponent<Rigidbody2D>();
-    }
 
     void Update()
     {
@@ -39,6 +34,11 @@ class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!canMove)
+        {
+            return;
+        }
+        
         if (horizontal != 0 && vertical != 0) // Check for diagonal movement
         {
             // limit movement speed diagonally, so you move at 70% speed
@@ -46,6 +46,16 @@ class PlayerMovement : MonoBehaviour
             vertical *= moveLimiter;
         }
 
-        body.linearVelocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+        transform.position += new Vector3(horizontal, vertical, 0) * (Time.fixedDeltaTime * runSpeed);
+    }
+
+    public void DisableMovement()
+    {
+        canMove = false;
+    }
+
+    public void EnableMovement()
+    {
+        canMove = true;
     }
 }
