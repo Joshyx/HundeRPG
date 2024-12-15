@@ -1,15 +1,18 @@
 using System;
 using System.Collections;
+using System.Globalization;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public TextMeshProUGUI levelText;
+    public Slider levelSlider;
+    public TextMeshProUGUI healthText;
     public Animator tongue;
     public SpriteRenderer biteTarget;
-    public Camera cam;
+    Camera cam;
     PlayerMovement movement;
     
     public float maxHealth = 100f;
@@ -18,16 +21,20 @@ public class PlayerController : MonoBehaviour
     public float secondsToLoadBite = 0.5f;
     public float biteRadius = 3.5f;
     public float distanceFromBiteTarget = 1f;
+    public float lickCooldown = 0.5f;
     
     private float currentHealth;
-    private float level;
-    private DateTime? biteStartTime = null;
+    private float xp;
+    private float xpNeededToLevelUp = 100;
+    private DateTime? biteStartTime;
+    private DateTime? lastLickTime;
     
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         currentHealth = maxHealth;
+        healthText.text = currentHealth.ToString();
         movement = GetComponent<PlayerMovement>();
+        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
     private void Update()
@@ -55,6 +62,7 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        healthText.text = Mathf.Max(Mathf.RoundToInt(currentHealth), 0).ToString();
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
@@ -64,6 +72,12 @@ public class PlayerController : MonoBehaviour
 
     public void Lick()
     {
+        var secondsSinceLastLick = (DateTime.Now - lastLickTime)?.TotalSeconds ?? Double.MaxValue;
+        if (secondsSinceLastLick <= lickCooldown)
+        {
+            return;
+        }
+        lastLickTime = DateTime.Now;
         var npc = GetNearestNPCInRadius(transform.position, lickRadius);
 
         if (npc is null)
@@ -72,8 +86,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
         
-        level += 0.1f;
-        levelText.SetText("Level: " + level);
+        AddXP(5f);
         npc.GetComponent<NPCController>().SpottedPlayer();
         tongue.SetTrigger("Lick");
     }
@@ -127,6 +140,18 @@ public class PlayerController : MonoBehaviour
         
         npc.GetComponent<NPCController>().TakeDamage(damage);
         StartCoroutine(nameof(MoveTowardsTargetSlowly), biteTarget.transform.position);
+        AddXP(15f);
+    }
+
+    void AddXP(float amount)
+    {
+        xp += amount;
+        levelSlider.value = xp / xpNeededToLevelUp;
+
+        if (xp >= xpNeededToLevelUp)
+        {
+            // Level up
+        }
     }
     
     IEnumerator MoveTowardsTargetSlowly(Vector3 target)

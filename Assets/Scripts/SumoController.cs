@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class SumoController : NPCController
 {
     public override void SpottedPlayer()
