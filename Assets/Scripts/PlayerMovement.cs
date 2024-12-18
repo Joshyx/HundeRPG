@@ -2,40 +2,44 @@ using UnityEngine;
 
 class PlayerMovement : MonoBehaviour
 {
-    float horizontal;
-    float vertical;
     float moveLimiter = 0.7f;
     bool canMove = true;
 
+    private Rigidbody2D rb;
+
     public float runSpeed = 5.0f;
 
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     void Update()
     {
         // Gives a value between -1 and 1
-        horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left
-        vertical = Input.GetAxisRaw("Vertical"); // -1 is down
+        var horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left
+        var vertical = Input.GetAxisRaw("Vertical"); // -1 is down
 
-        if (horizontal < 0)
+        if (horizontal < 0) // Moves left
         {
-            if (transform.localScale.x > 0)
+            if (transform.localScale.x > 0) // Currently facing right
             {
+                // Set look direction to left
                 transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
             }
         } 
-        else if (horizontal > 0)
+        else if (horizontal > 0) // Looks right
         {
-            if (transform.localScale.x < 0)
+            if (transform.localScale.x < 0) // Currently facing left
             {
+                // Set look direction to right
                 transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
             }
         }
-    }
-
-    void FixedUpdate()
-    {
+        
         if (!canMove)
         {
+            rb.linearVelocity = Vector3.zero;
             return;
         }
         
@@ -46,12 +50,13 @@ class PlayerMovement : MonoBehaviour
             vertical *= moveLimiter;
         }
 
-        transform.position += new Vector3(horizontal, vertical, 0) * (Time.fixedDeltaTime * runSpeed);
+        rb.linearVelocity = new Vector3(horizontal, vertical, 0) * runSpeed;
     }
 
     public void DisableMovement()
     {
         canMove = false;
+        rb.linearVelocity = Vector3.zero;
     }
 
     public void EnableMovement()

@@ -105,8 +105,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   viewDistance: 15
+  attackDistance: 2
   damage: 15
-  damageCooldownSeconds: 1
+  damageCooldownSeconds: 0.5
 --- !u!114 &1065989949633546002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63593a396301c4706b147e2d2b83691b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleTargetPos: {x: 0, y: 0}
+  idleTargetPos: {x: 0, y: 0, z: 0}
   speed: 3
 --- !u!50 &4022143649320613453
 Rigidbody2D:

@@ -147,11 +147,11 @@ public class PlayerController : MonoBehaviour
     {
         xp += amount;
         levelSlider.value = xp / xpNeededToLevelUp;
+    }
 
-        if (xp >= xpNeededToLevelUp)
-        {
-            // Level up
-        }
+    public bool CanLevelUp()
+    {
+        return xp >= xpNeededToLevelUp;
     }
     
     IEnumerator MoveTowardsTargetSlowly(Vector3 target)

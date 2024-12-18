@@ -1,12 +1,16 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class NPCMovement : MonoBehaviour
 {
     private GameObject player;
+    private Rigidbody2D rb;
 
+    private bool canMove = true;
     private MovementState state = MovementState.IDLE;
     [HideInInspector]
-    public Vector2 idleTargetPos;
+    public Vector3 idleTargetPos;
     
     public float speed = 3;
     
@@ -14,6 +18,7 @@ public class NPCMovement : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        rb = GetComponent<Rigidbody2D>();
         idleTargetPos = transform.position;
     }
 
@@ -25,37 +30,35 @@ public class NPCMovement : MonoBehaviour
 
     void Move() 
     {
-        Vector2 playerPos = player.transform.position;
-        bool looksRight = false;
+        Vector3 playerPos = player.transform.position;
+        Vector3 targetPos = idleTargetPos;
+        bool runAway = false;
         
         switch (state)
         {
             case MovementState.IDLE:
-                if (transform.position.x < idleTargetPos.x)
-                {
-                    looksRight = true;
-                }
                 // Zur nächsten Zielposition laufen
-                transform.position = Vector2.MoveTowards(transform.position, idleTargetPos, speed * Time.deltaTime);
+                targetPos = idleTargetPos;
                 break;
             case MovementState.ANGRY:
-                if (transform.position.x < playerPos.x)
-                {
-                    looksRight = true;
-                }
                 // Zum Spieler laufen
-                transform.position = Vector2.MoveTowards(transform.position, playerPos, speed * Time.deltaTime);
+                targetPos = playerPos;
                 break;
             case MovementState.SCARED:
-                if (transform.position.x > playerPos.x)
-                {
-                    looksRight = true;
-                }
                 // Vom Spieler weg laufen
-                transform.position = Vector2.MoveTowards(transform.position, playerPos, -1 * speed * Time.deltaTime);
+                targetPos = playerPos;
+                runAway = true;
                 break;
         }
-
+        
+        bool looksRight = false;
+        if (transform.position.x < targetPos.x && !runAway)
+        {
+            looksRight = true;
+        } else if (transform.position.x > targetPos.x && runAway)
+        {
+            looksRight = true;
+        }
         if (looksRight)
         {
             transform.localScale = new Vector3(-1* Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
@@ -64,12 +67,30 @@ public class NPCMovement : MonoBehaviour
         {
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
+
+        if (!canMove)
+        {
+            rb.linearVelocity = Vector3.zero;
+            return;
+        }
+        rb.linearVelocity = (targetPos - transform.position).normalized * (speed * (runAway ? -1 : 1));
         
         if (Vector2.Distance(transform.position, idleTargetPos) < 0.1f)
         {
             // Wenn die Zielposition erreicht wurde, eine zufällige neue aussuchen
             RecalculateIdlePosition();
         }
+    }
+
+    public void DisableMovement()
+    {
+        canMove = false;
+        rb.linearVelocity = Vector3.zero;
+    }
+
+    public void EnableMovement()
+    {
+        canMove = true;
     }
 
     public void RecalculateIdlePosition()
