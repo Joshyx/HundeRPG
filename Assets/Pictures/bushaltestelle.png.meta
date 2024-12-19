@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      bushaltestelle_0: 4850335495604508364
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

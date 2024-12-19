@@ -11,6 +11,7 @@ public abstract class NPCController : MonoBehaviour
     
     public float damage = 10f;
     public float damageCooldownSeconds = 0.5f;
+    private float? startOfAttack = null;
     
     private float currentHealth;
 
@@ -30,6 +31,8 @@ public abstract class NPCController : MonoBehaviour
         {
             LostPlayer();
         }
+
+        TryAttack();
     }
 
     public void TakeDamage(float amount)
@@ -42,24 +45,36 @@ public abstract class NPCController : MonoBehaviour
         SpottedPlayer();
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void TryAttack()
     {
         if (damage <= 0 ) return;
-        
-        if (!other.gameObject.CompareTag("Player")) return;
 
-        StartCoroutine(nameof(AttackPlayer));
-    }
-
-    private IEnumerator AttackPlayer()
-    {
-        movement.DisableMovement();
-        yield return new WaitForSeconds(damageCooldownSeconds);
-        if (Vector2.Distance(transform.position, player.transform.position) < attackDistance)
+        if (Vector2.Distance(transform.position, player.transform.position) > attackDistance)
         {
-            player.TakeDamage(damage);
+            if (startOfAttack is not null)
+            {
+                startOfAttack = null;
+                movement.EnableMovement();
+            }
+            return;
         }
+
+        if (startOfAttack is null)
+        {
+            startOfAttack = Time.time;
+            movement.DisableMovement();
+            return;
+        }
+        
+        var timeSinceStart = Time.time - startOfAttack.Value;
+        if (timeSinceStart < damageCooldownSeconds)
+        {
+            return;
+        }
+        
+        player.TakeDamage(damage);
         movement.EnableMovement();
+        startOfAttack = null;
     }
 
     public abstract void SpottedPlayer();

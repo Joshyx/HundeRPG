@@ -4,12 +4,14 @@ using System.Globalization;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     public Slider levelSlider;
     public TextMeshProUGUI healthText;
+    public GameObject gameOverPanel;
     public Animator tongue;
     public SpriteRenderer biteTarget;
     Camera cam;
@@ -62,12 +64,17 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        healthText.text = Mathf.Max(Mathf.RoundToInt(currentHealth), 0).ToString();
         currentHealth -= damage;
+        healthText.SetText(Mathf.Max(Mathf.RoundToInt(currentHealth), 0).ToString());
         if (currentHealth <= 0)
         {
-            Debug.Log("DEAD");
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        gameOverPanel.SetActive(true);
     }
 
     public void Lick()
@@ -82,7 +89,6 @@ public class PlayerController : MonoBehaviour
 
         if (npc is null)
         {
-            Debug.Log("NO NPC");
             return;
         }
         
