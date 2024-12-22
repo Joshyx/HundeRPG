@@ -14,8 +14,9 @@ public class PlayerController : MonoBehaviour
     public GameObject gameOverPanel;
     public Animator tongue;
     public SpriteRenderer biteTarget;
-    Camera cam;
-    PlayerMovement movement;
+    private Camera cam;
+    private PlayerMovement movement;
+    private Rigidbody2D rb;
     
     public float maxHealth = 100f;
     public float damage = 40f;
@@ -37,6 +38,7 @@ public class PlayerController : MonoBehaviour
         healthText.text = currentHealth.ToString();
         movement = GetComponent<PlayerMovement>();
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -100,13 +102,19 @@ public class PlayerController : MonoBehaviour
     public void MoveBiteTarget()
     {
         var pos = (Vector2) cam.ScreenToWorldPoint(Input.mousePosition);
-        if (Vector2.Distance(pos, transform.position) > biteRadius)
+        
+        var biteTargetRadius = biteTarget.bounds.size.x / 2;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, pos - (Vector2) transform.position, biteRadius + biteTargetRadius, LayerMask.GetMask("Environment"));
+        if (hit)
+        {
+            pos = hit.point + hit.normal * biteTargetRadius;
+        } else if (Vector2.Distance(pos, transform.position) > biteRadius)
         {
             pos = Vector2.MoveTowards(transform.position, pos, biteRadius);
         }
         biteTarget.transform.position = pos;
         
-        var seconds = DateTime.Now.Subtract(biteStartTime.Value).TotalSeconds;
+        var seconds = DateTime.Now.Subtract(biteStartTime.GetValueOrDefault(DateTime.Now)).TotalSeconds;
         if (seconds >= secondsToLoadBite)
         {
             biteTarget.color = Color.red;
@@ -139,14 +147,13 @@ public class PlayerController : MonoBehaviour
     public void Bite()
     {
         var npc = GetNearestNPCInRadius(biteTarget.transform.position, distanceFromBiteTarget);
-        if (npc is null)
+        if (npc is not null)
         {
-            return;
+            npc.GetComponent<NPCController>().TakeDamage(damage);
+            AddXP(15f);
         }
         
-        npc.GetComponent<NPCController>().TakeDamage(damage);
         StartCoroutine(nameof(MoveTowardsTargetSlowly), biteTarget.transform.position);
-        AddXP(15f);
     }
 
     void AddXP(float amount)
@@ -162,11 +169,12 @@ public class PlayerController : MonoBehaviour
     
     IEnumerator MoveTowardsTargetSlowly(Vector3 target)
     {
-        while (transform.position != target)
+        while (Vector2.Distance(transform.position, target) > 1f)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * 50f);
+            rb.linearVelocity = (target - transform.position).normalized * 15;
             yield return new WaitForEndOfFrame();
         }
+        rb.linearVelocity = Vector3.zero;
     }
 
     private void OnDrawGizmos()

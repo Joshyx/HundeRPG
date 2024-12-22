@@ -32,7 +32,6 @@ public class NPCMovement : MonoBehaviour
     {
         Vector3 playerPos = player.transform.position;
         Vector3 targetPos = idleTargetPos;
-        bool runAway = false;
         
         switch (state)
         {
@@ -46,19 +45,11 @@ public class NPCMovement : MonoBehaviour
                 break;
             case MovementState.SCARED:
                 // Vom Spieler weg laufen
-                targetPos = playerPos;
-                runAway = true;
+                targetPos = transform.position + (-1 * (playerPos - transform.position));
                 break;
         }
         
-        bool looksRight = false;
-        if (transform.position.x < targetPos.x && !runAway)
-        {
-            looksRight = true;
-        } else if (transform.position.x > targetPos.x && runAway)
-        {
-            looksRight = true;
-        }
+        bool looksRight = transform.position.x < targetPos.x;
         if (looksRight)
         {
             transform.localScale = new Vector3(-1* Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
@@ -73,7 +64,7 @@ public class NPCMovement : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
             return;
         }
-        rb.linearVelocity = (targetPos - transform.position).normalized * (speed * (runAway ? -1 : 1));
+        rb.linearVelocity = (targetPos - transform.position).normalized * speed;
         
         if (Vector2.Distance(transform.position, idleTargetPos) < 0.1f)
         {
