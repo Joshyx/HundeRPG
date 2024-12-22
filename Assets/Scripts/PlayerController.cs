@@ -17,6 +17,12 @@ public class PlayerController : MonoBehaviour
     private Camera cam;
     private PlayerMovement movement;
     private Rigidbody2D rb;
+    private BoxCollider2D boxCollider;
+    
+    public AudioClip hurtSound;
+    public AudioClip deathSound;
+    public AudioClip lickSound;
+    public AudioClip biteSound;
     
     public float maxHealth = 100f;
     public float damage = 40f;
@@ -31,7 +37,7 @@ public class PlayerController : MonoBehaviour
     private float xpNeededToLevelUp = 100;
     private DateTime? biteStartTime;
     private DateTime? lastLickTime;
-    
+
     private void Start()
     {
         currentHealth = maxHealth;
@@ -39,11 +45,12 @@ public class PlayerController : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rb = GetComponent<Rigidbody2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             Lick();
         }
@@ -68,6 +75,7 @@ public class PlayerController : MonoBehaviour
     {
         currentHealth -= damage;
         healthText.SetText(Mathf.Max(Mathf.RoundToInt(currentHealth), 0).ToString());
+        AudioSource.PlayClipAtPoint(hurtSound, transform.position);
         if (currentHealth <= 0)
         {
             Die();
@@ -76,6 +84,7 @@ public class PlayerController : MonoBehaviour
 
     private void Die()
     {
+        AudioSource.PlayClipAtPoint(deathSound, transform.position);
         gameOverPanel.SetActive(true);
     }
 
@@ -95,6 +104,7 @@ public class PlayerController : MonoBehaviour
         }
         
         AddXP(5f);
+        AudioSource.PlayClipAtPoint(lickSound, transform.position);
         npc.GetComponent<NPCController>().SpottedPlayer();
         tongue.SetTrigger("Lick");
     }
@@ -153,7 +163,40 @@ public class PlayerController : MonoBehaviour
             AddXP(15f);
         }
         
+        AudioSource.PlayClipAtPoint(biteSound, transform.position);
         StartCoroutine(nameof(MoveTowardsTargetSlowly), biteTarget.transform.position);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        var consumable = other.GetComponent<Consumable>();
+        if (consumable is null) return;
+
+        if (!Mathf.Approximately(consumable.damageMultiplier, 1f))
+        {
+            StartCoroutine(nameof(IncreaseDamageTemporarily), new Tuple<float, float>(consumable.damageMultiplier, consumable.effectDurationSeconds));
+        }
+        if (!Mathf.Approximately(consumable.speedMultiplier, 1f))
+        {
+            StartCoroutine(nameof(IncreaseSpeedTemporarily), new Tuple<float, float>(consumable.speedMultiplier, consumable.effectDurationSeconds));
+        }
+        Destroy(consumable.gameObject);
+    }
+
+    private IEnumerator IncreaseSpeedTemporarily(Tuple<float, float> args)
+    {
+        var oldSpeed = movement.runSpeed;
+        movement.runSpeed *= args.Item1;
+        yield return new WaitForSeconds(args.Item2);
+        movement.runSpeed = oldSpeed;
+    }
+
+    private IEnumerator IncreaseDamageTemporarily(Tuple<float, float> args)
+    {
+        var oldDamage = damage;
+        damage *= args.Item1;
+        yield return new WaitForSeconds(args.Item2);
+        damage = oldDamage;
     }
 
     void AddXP(float amount)
@@ -166,14 +209,21 @@ public class PlayerController : MonoBehaviour
     {
         return xp >= xpNeededToLevelUp;
     }
+
+    public float GetProgress()
+    {
+        return xp / xpNeededToLevelUp;
+    }
     
     IEnumerator MoveTowardsTargetSlowly(Vector3 target)
     {
-        while (Vector2.Distance(transform.position, target) > 1f)
+        boxCollider.enabled = false;
+        while (Vector2.Distance(transform.position, target) > 0.5f)
         {
             rb.linearVelocity = (target - transform.position).normalized * 15;
             yield return new WaitForEndOfFrame();
         }
+        boxCollider.enabled = true;
         rb.linearVelocity = Vector3.zero;
     }
 
@@ -189,20 +239,8 @@ public class PlayerController : MonoBehaviour
 
     private GameObject GetNearestNPCInRadius(Vector2 pos, float radius)
     {
-        GameObject nearest = null;
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(pos, radius);
-        foreach (var collider in colliders)
-        {
-            if (collider.CompareTag("NPC"))
-            {
-                if (nearest is null || Vector2.Distance(pos, collider.transform.position) <
-                    Vector2.Distance(pos, nearest.transform.position))
-                {
-                    nearest = collider.gameObject;
-                }
-            }
-        }
+        Collider2D collider = Physics2D.OverlapCircle(pos, radius, LayerMask.GetMask("NPC"));
         
-        return nearest;
+        return collider ? collider.gameObject : null;
     }
 }

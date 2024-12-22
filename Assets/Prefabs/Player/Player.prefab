@@ -376,8 +376,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelSlider: {fileID: 0}
+  healthText: {fileID: 0}
+  gameOverPanel: {fileID: 0}
   tongue: {fileID: 5363730740331315713}
   biteTarget: {fileID: 624121738701288640}
+  hurtSound: {fileID: 8300000, guid: 35db5b02afc98f1929b247e9447c970e, type: 3}
+  deathSound: {fileID: 8300000, guid: 35db5b02afc98f1929b247e9447c970e, type: 3}
+  lickSound: {fileID: 8300000, guid: 35db5b02afc98f1929b247e9447c970e, type: 3}
+  biteSound: {fileID: 8300000, guid: 35db5b02afc98f1929b247e9447c970e, type: 3}
   maxHealth: 100
   damage: 40
   lickRadius: 1.5

@@ -1,7 +1,5 @@
-using System;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Timeline;
+using UnityEngine.UI;
 
 public abstract class NPCController : MonoBehaviour
 {
@@ -14,6 +12,8 @@ public abstract class NPCController : MonoBehaviour
     private float? startOfAttack = null;
     
     private float currentHealth;
+    
+    public Slider healthSlider;
 
     protected PlayerController player;
     protected NPCMovement movement;
@@ -41,7 +41,10 @@ public abstract class NPCController : MonoBehaviour
         if (currentHealth <= 0)
         {
             Destroy(gameObject);
+            return;
         }
+        healthSlider.gameObject.SetActive(true);
+        healthSlider.value = currentHealth / maxHealth;
         SpottedPlayer();
     }
 

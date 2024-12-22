@@ -11,7 +11,7 @@ public class BusStopController : MonoBehaviour
         var player = other.GetComponent<PlayerController>();
         if (player.CanLevelUp())
         {
-            text.SetText("Press R to Level Up");
+            text.SetText("Press E to Level Up");
         }
         else
         {
@@ -32,7 +32,7 @@ public class BusStopController : MonoBehaviour
     {
         if(!other.CompareTag("Player")) return;
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             EnterBus();
         }
@@ -40,6 +40,6 @@ public class BusStopController : MonoBehaviour
 
     private void EnterBus()
     {
-        
+        Debug.Log("Entering Bus");
     }
 }

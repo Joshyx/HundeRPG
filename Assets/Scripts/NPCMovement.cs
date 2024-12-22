@@ -6,6 +6,7 @@ public class NPCMovement : MonoBehaviour
 {
     private GameObject player;
     private Rigidbody2D rb;
+    private SpriteRenderer sr;
 
     private bool canMove = true;
     private MovementState state = MovementState.IDLE;
@@ -19,6 +20,7 @@ public class NPCMovement : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
         idleTargetPos = transform.position;
     }
 
@@ -52,11 +54,11 @@ public class NPCMovement : MonoBehaviour
         bool looksRight = transform.position.x < targetPos.x;
         if (looksRight)
         {
-            transform.localScale = new Vector3(-1* Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            sr.flipX = true;
         }
         else
         {
-            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            sr.flipX = false;
         }
 
         if (!canMove)
@@ -71,6 +73,14 @@ public class NPCMovement : MonoBehaviour
             // Wenn die Zielposition erreicht wurde, eine zufällige neue aussuchen
             RecalculateIdlePosition();
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (state != MovementState.IDLE) return;
+        
+        // Neue zufällige Zielposition weg von der Wand wenn eine Wand berührt wird
+        idleTargetPos = (Vector2) transform.position + (other.GetContact(0).normal + Random.insideUnitCircle) * 10;
     }
 
     public void DisableMovement()
