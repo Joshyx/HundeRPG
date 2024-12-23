@@ -28,9 +28,10 @@ public class BusStopController : MonoBehaviour
         text.gameObject.SetActive(false);
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void Update()
     {
-        if(!other.CompareTag("Player")) return;
+        if(!text.gameObject.activeSelf) return;
+        if(MenuController.IsGamePaused()) return;
 
         if (Input.GetKeyDown(KeyCode.E))
         {

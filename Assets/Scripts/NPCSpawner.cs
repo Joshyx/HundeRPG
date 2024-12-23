@@ -19,6 +19,8 @@ public class NPCSpawner : MonoBehaviour
 
     private void Update()
     {
+        if (MenuController.IsGamePaused()) return;
+        
         TrySpawnNPC();
     }
 

@@ -14,8 +14,14 @@ class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    private void Update()
     {
+        if (MenuController.IsGamePaused())
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+        
         // Gives a value between -1 and 1
         var horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left
         var vertical = Input.GetAxisRaw("Vertical"); // -1 is down

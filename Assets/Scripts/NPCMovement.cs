@@ -25,8 +25,14 @@ public class NPCMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        if (MenuController.IsGamePaused())
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+        
         Move();
     }
 

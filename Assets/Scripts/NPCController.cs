@@ -18,15 +18,17 @@ public abstract class NPCController : MonoBehaviour
     protected PlayerController player;
     protected NPCMovement movement;
 
-    void Start()
+    private void Start()
     {
         currentHealth = maxHealth;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         movement = GetComponent<NPCMovement>();
     }
 
-    void Update()
+    private void Update()
     {
+        if(MenuController.IsGamePaused()) return;
+        
         if (Vector2.Distance(transform.position, player.transform.position) > viewDistance && movement.GetState() != NPCMovement.MovementState.IDLE)
         {
             LostPlayer();

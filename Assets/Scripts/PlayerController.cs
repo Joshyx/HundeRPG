@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
 {
     public Slider levelSlider;
     public TextMeshProUGUI healthText;
-    public GameObject gameOverPanel;
+    public MenuController menuController;
     public Animator tongue;
     public SpriteRenderer biteTarget;
     private Camera cam;
@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if(MenuController.IsGamePaused()) return;
+        
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             Lick();
@@ -85,7 +87,7 @@ public class PlayerController : MonoBehaviour
     private void Die()
     {
         AudioSource.PlayClipAtPoint(deathSound, transform.position);
-        gameOverPanel.SetActive(true);
+        menuController.GameOver();
     }
 
     public void Lick()

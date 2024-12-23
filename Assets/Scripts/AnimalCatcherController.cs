@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class AnimalCatcherController : NPCController
 {
-    void FixedUpdate()
+    private void FixedUpdate()
     {
+        if(MenuController.IsGamePaused()) return;
+        
         if (Vector2.Distance(transform.position, player.transform.position) < viewDistance 
             && movement.GetState() == NPCMovement.MovementState.IDLE)
         {

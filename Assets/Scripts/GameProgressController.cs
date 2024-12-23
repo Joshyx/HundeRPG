@@ -21,6 +21,8 @@ public class GameProgressController : MonoBehaviour
 
     private void Update()
     {
+        if(MenuController.IsGamePaused()) return;
+        
         foreach (var wave in waves)
         {
             if(wave.spawned || player.GetProgress() < wave.neededProgress) continue;
