@@ -53,6 +53,7 @@ public abstract class NPCController : MonoBehaviour
     private void TryAttack()
     {
         if (damage <= 0 ) return;
+        if (movement.GetState() != NPCMovement.MovementState.ANGRY) return;
 
         if (Vector2.Distance(transform.position, player.transform.position) > attackDistance)
         {

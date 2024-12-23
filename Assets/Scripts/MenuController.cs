@@ -43,19 +43,19 @@ public class MenuController : MonoBehaviour
 
     public void GameOver()
     {
+        paused = true;
         deathScreen.SetActive(true);
-        Time.timeScale = 0f;
     }
 
     public void RestartGame()
     {
-        Time.timeScale = 1;
+        paused = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void LoadMainMenu()
     {
-        Time.timeScale = 1;
+        paused = false;
         SceneManager.LoadScene("MainMenu");
     }
 }
