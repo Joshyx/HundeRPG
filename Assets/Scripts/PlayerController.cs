@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public Slider levelSlider;
     public TextMeshProUGUI healthText;
     public MenuController menuController;
     public Animator tongue;
@@ -26,21 +25,24 @@ public class PlayerController : MonoBehaviour
     
     public float maxHealth = 100f;
     public float damage = 40f;
+    [HideInInspector]
+    public float currentDamage;
     public float lickRadius = 1.5f;
+    [HideInInspector]
+    public float lickDamage = 0f;
     public float secondsToLoadBite = 0.5f;
     public float biteRadius = 3.5f;
     public float distanceFromBiteTarget = 1f;
     public float lickCooldown = 0.5f;
     
     private float currentHealth;
-    private float xp;
-    private float xpNeededToLevelUp = 100;
     private DateTime? biteStartTime;
     private DateTime? lastLickTime;
 
     private void Start()
     {
         currentHealth = maxHealth;
+        currentDamage = damage;
         healthText.text = currentHealth.ToString();
         movement = GetComponent<PlayerMovement>();
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
@@ -105,9 +107,10 @@ public class PlayerController : MonoBehaviour
             return;
         }
         
-        AddXP(5f);
+        GameProgressController.AddXP(5f);
         AudioSource.PlayClipAtPoint(lickSound, transform.position);
         npc.GetComponent<NPCController>().SpottedPlayer();
+        if(lickDamage > 0) npc.GetComponent<NPCController>().TakeDamage(lickDamage);
         tongue.SetTrigger("Lick");
     }
 
@@ -161,8 +164,8 @@ public class PlayerController : MonoBehaviour
         var npc = GetNearestNPCInRadius(biteTarget.transform.position, distanceFromBiteTarget);
         if (npc is not null)
         {
-            npc.GetComponent<NPCController>().TakeDamage(damage);
-            AddXP(15f);
+            npc.GetComponent<NPCController>().TakeDamage(currentDamage);
+            GameProgressController.AddXP(15f);
         }
         
         AudioSource.PlayClipAtPoint(biteSound, transform.position);
@@ -187,36 +190,18 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator IncreaseSpeedTemporarily(Tuple<float, float> args)
     {
-        var oldSpeed = movement.runSpeed;
-        movement.runSpeed *= args.Item1;
+        movement.currentSpeed *= args.Item1;
         yield return new WaitForSeconds(args.Item2);
-        movement.runSpeed = oldSpeed;
+        movement.currentSpeed = movement.runSpeed;
     }
 
     private IEnumerator IncreaseDamageTemporarily(Tuple<float, float> args)
     {
-        var oldDamage = damage;
-        damage *= args.Item1;
+        currentDamage *= args.Item1;
         yield return new WaitForSeconds(args.Item2);
-        damage = oldDamage;
+        currentDamage = damage;
     }
 
-    void AddXP(float amount)
-    {
-        xp += amount;
-        levelSlider.value = xp / xpNeededToLevelUp;
-    }
-
-    public bool CanLevelUp()
-    {
-        return xp >= xpNeededToLevelUp;
-    }
-
-    public float GetProgress()
-    {
-        return xp / xpNeededToLevelUp;
-    }
-    
     IEnumerator MoveTowardsTargetSlowly(Vector3 target)
     {
         boxCollider.enabled = false;

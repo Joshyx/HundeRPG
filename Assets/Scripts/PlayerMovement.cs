@@ -8,10 +8,13 @@ class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
 
     public float runSpeed = 5.0f;
+    [HideInInspector]
+    public float currentSpeed;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        currentSpeed = runSpeed;
     }
 
     private void Update()
@@ -56,7 +59,7 @@ class PlayerMovement : MonoBehaviour
             vertical *= moveLimiter;
         }
 
-        rb.linearVelocity = new Vector3(horizontal, vertical, 0) * runSpeed;
+        rb.linearVelocity = new Vector3(horizontal, vertical, 0) * currentSpeed;
     }
 
     public void DisableMovement()
