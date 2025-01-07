@@ -303,6 +303,7 @@ MonoBehaviour:
   damage: 5
   damageCooldownSeconds: 0.5
   healthSlider: {fileID: 393100649885740734}
+  coinObject: {fileID: 8555697161035628099, guid: d8a2d6f64765242109390c3bcf052e70, type: 3}
   sprites:
   - {fileID: 4395850244824154869, guid: 881755fc62551b8c5ab67e264ad411e3, type: 3}
   - {fileID: 6104271598021302686, guid: fd2acaa59c4d6f811b823114a113bd5f, type: 3}

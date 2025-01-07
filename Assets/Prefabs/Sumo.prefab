@@ -275,6 +275,7 @@ MonoBehaviour:
   damage: 30
   damageCooldownSeconds: 3
   healthSlider: {fileID: 3331607866970192147}
+  coinObject: {fileID: 8555697161035628099, guid: d8a2d6f64765242109390c3bcf052e70, type: 3}
 --- !u!114 &1065989949633546002
 MonoBehaviour:
   m_ObjectHideFlags: 0

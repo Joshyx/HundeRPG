@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
@@ -13,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public MenuController menuController;
     public Animator tongue;
     public SpriteRenderer biteTarget;
+    public GameObject landMine;
     private Camera cam;
     private PlayerMovement movement;
     private Rigidbody2D rb;
@@ -22,6 +25,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip deathSound;
     public AudioClip lickSound;
     public AudioClip biteSound;
+    public AudioClip moanSound;
     
     public float maxHealth = 100f;
     public float damage = 40f;
@@ -34,10 +38,12 @@ public class PlayerController : MonoBehaviour
     public float biteRadius = 3.5f;
     public float distanceFromBiteTarget = 1f;
     public float lickCooldown = 0.5f;
+    public float landMineCooldown = 1.5f;
     
     private float currentHealth;
     private DateTime? biteStartTime;
     private DateTime? lastLickTime;
+    private DateTime? lastLandMineTime;
 
     private void Start()
     {
@@ -73,6 +79,11 @@ public class PlayerController : MonoBehaviour
         {
             MoveBiteTarget();
         }
+
+        if (Input.GetKeyDown(KeyCode.Q) && GameProgressController.IsUpgradeEnabled("landmine"))
+        {
+            SpawnLandmine();
+        }
     }
 
     public void TakeDamage(float damage)
@@ -100,7 +111,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
         lastLickTime = DateTime.Now;
-        var npc = GetNearestNPCInRadius(transform.position, lickRadius);
+        var npc = Physics2D.OverlapCircle(transform.position, lickRadius, LayerMask.GetMask("NPC"))?.gameObject;
 
         if (npc is null)
         {
@@ -110,7 +121,18 @@ public class PlayerController : MonoBehaviour
         GameProgressController.AddXP(5f);
         AudioSource.PlayClipAtPoint(lickSound, transform.position);
         npc.GetComponent<NPCController>().SpottedPlayer();
-        if(lickDamage > 0) npc.GetComponent<NPCController>().TakeDamage(lickDamage);
+        if (lickDamage > 0)
+        {
+            npc.GetComponent<NPCController>().TakeDamage(lickDamage);
+            if (GameProgressController.IsUpgradeEnabled("lifesteal"))
+            {
+                currentHealth += lickDamage * 0.2f;
+            }
+        }
+        if (GameProgressController.IsUpgradeEnabled("cold_breath"))
+        {
+            npc.GetComponent<NPCMovement>().Freeze();
+        }
         tongue.SetTrigger("Lick");
     }
 
@@ -120,12 +142,17 @@ public class PlayerController : MonoBehaviour
         
         var biteTargetRadius = biteTarget.bounds.size.x / 2;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, pos - (Vector2) transform.position, biteRadius + biteTargetRadius, LayerMask.GetMask("Environment"));
-        if (hit)
+        if (hit && !GameProgressController.IsUpgradeEnabled("wallbreaker"))
         {
             pos = hit.point + hit.normal * biteTargetRadius;
-        } else if (Vector2.Distance(pos, transform.position) > biteRadius)
+        } else
         {
             pos = Vector2.MoveTowards(transform.position, pos, biteRadius);
+            var wall = Physics2D.OverlapCircle(pos, biteTargetRadius, LayerMask.GetMask("Environment"));
+            if (wall)
+            {
+                pos = hit.point + hit.normal * biteTargetRadius;
+            }
         }
         biteTarget.transform.position = pos;
         
@@ -161,15 +188,55 @@ public class PlayerController : MonoBehaviour
     }
     public void Bite()
     {
-        var npc = GetNearestNPCInRadius(biteTarget.transform.position, distanceFromBiteTarget);
-        if (npc is not null)
+        List<Collider2D> npcs = new();
+        if (GameProgressController.IsUpgradeEnabled("multiattack"))
         {
-            npc.GetComponent<NPCController>().TakeDamage(currentDamage);
-            GameProgressController.AddXP(15f);
+            npcs.AddRange(Physics2D.OverlapCircleAll(biteTarget.transform.position, distanceFromBiteTarget, LayerMask.GetMask("NPC")));
+        }
+        else
+        {
+            npcs.Add(Physics2D.OverlapCircle(biteTarget.transform.position, distanceFromBiteTarget, LayerMask.GetMask("NPC")));
         }
         
-        AudioSource.PlayClipAtPoint(biteSound, transform.position);
+        foreach (var npc in npcs)
+        {
+            if (npc is not null)
+            {
+                npc.GetComponent<NPCController>().TakeDamage(currentDamage);
+                if (GameProgressController.IsUpgradeEnabled("lifesteal"))
+                {
+                    currentHealth += currentDamage * 0.2f;
+                }
+                GameProgressController.AddXP(15f);
+
+                if (GameProgressController.IsUpgradeEnabled("cold_breath"))
+                {
+                    npc.GetComponent<NPCMovement>().Freeze();
+                }
+            }
+        }
+        
+        if(GameProgressController.IsUpgradeEnabled("moaning_bite"))
+        {
+            AudioSource.PlayClipAtPoint(moanSound, transform.position);
+        }
+        else
+        {
+            AudioSource.PlayClipAtPoint(biteSound, transform.position);
+        }
         StartCoroutine(nameof(MoveTowardsTargetSlowly), biteTarget.transform.position);
+    }
+
+    private void SpawnLandmine()
+    {
+        var secondsSinceLastLandMine = (DateTime.Now - lastLandMineTime)?.TotalSeconds ?? Double.MaxValue;
+        if (secondsSinceLastLandMine <= landMineCooldown)
+        {
+            return;
+        }
+        
+        lastLandMineTime = DateTime.Now;
+        Instantiate(landMine, transform.position, Quaternion.identity);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -184,6 +251,10 @@ public class PlayerController : MonoBehaviour
         if (!Mathf.Approximately(consumable.speedMultiplier, 1f))
         {
             StartCoroutine(nameof(IncreaseSpeedTemporarily), new Tuple<float, float>(consumable.speedMultiplier, consumable.effectDurationSeconds));
+        }
+        if (consumable.coins != 0)
+        {
+            GameProgressController.AddCoins(consumable.coins);
         }
         Destroy(consumable.gameObject);
     }
@@ -222,12 +293,5 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, biteRadius);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(biteTarget.transform.position, distanceFromBiteTarget);
-    }
-
-    private GameObject GetNearestNPCInRadius(Vector2 pos, float radius)
-    {
-        Collider2D collider = Physics2D.OverlapCircle(pos, radius, LayerMask.GetMask("NPC"));
-        
-        return collider ? collider.gameObject : null;
     }
 }

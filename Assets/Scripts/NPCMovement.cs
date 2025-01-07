@@ -14,6 +14,7 @@ public class NPCMovement : MonoBehaviour
     public Vector3 idleTargetPos;
     
     public float speed = 3;
+    private bool frozen;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -72,7 +73,7 @@ public class NPCMovement : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
             return;
         }
-        rb.linearVelocity = (targetPos - transform.position).normalized * speed;
+        rb.linearVelocity = (targetPos - transform.position).normalized * (speed * (frozen ? 0.5f : 1));
         
         if (Vector2.Distance(transform.position, idleTargetPos) < 0.1f)
         {
@@ -84,6 +85,7 @@ public class NPCMovement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (state != MovementState.IDLE) return;
+        if (other.gameObject.layer != LayerMask.NameToLayer("Environment")) return;
         
         // Neue zufällige Zielposition weg von der Wand wenn eine Wand berührt wird
         idleTargetPos = (Vector2) transform.position + (other.GetContact(0).normal + Random.insideUnitCircle) * 10;
@@ -100,9 +102,21 @@ public class NPCMovement : MonoBehaviour
         canMove = true;
     }
 
+    public void Freeze()
+    {
+        frozen = true;
+    }
+
     public void RecalculateIdlePosition()
     {
-        idleTargetPos = new Vector2(transform.position.x + Random.Range(-10, 10), transform.position.y + Random.Range(-10, 10));
+        if (GameProgressController.IsUpgradeEnabled("cuteness"))
+        {
+            idleTargetPos = player.transform.position + (Vector3) Random.insideUnitCircle * 10;
+        }
+        else
+        {
+            idleTargetPos = new Vector2(transform.position.x + Random.Range(-10, 10), transform.position.y + Random.Range(-10, 10));
+        }
     }
 
     public void SetState(MovementState newState)

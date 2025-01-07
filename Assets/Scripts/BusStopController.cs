@@ -8,8 +8,15 @@ public class BusStopController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(!other.CompareTag("Player")) return;
-        
-        text.SetText("Press E to Level Up");
+
+        if (GameProgressController.CanProgress())
+        {
+            text.SetText("Press E to Drive Away");
+        }
+        else
+        {
+            text.SetText("You need at least 200 coins to use the bus");
+        }
         
         text.gameObject.SetActive(true);
     }

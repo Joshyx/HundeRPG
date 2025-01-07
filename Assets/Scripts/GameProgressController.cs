@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,26 +11,30 @@ public class GameProgressController : MonoBehaviour
 {
     private static int level = 1;
     private static float xp = 0;
+    private static int coins = 0;
+    private static int coinsNeededToProgress = 200;
+    public AudioClip coinSound;
+    public AudioClip xpSound;
 
-    private static float[] xpNeededToLevelUp = { 10f, 10f, 10f, 10f, 10f };
+    private static float[] xpNeededToLevelUp = { 100f, 100f, 120f, 140f, 160f, 180f, 220f, 280f, 350f };
 
     private static List<Upgrade> upgrades = new List<Upgrade>() {
-        new (1, "Speed", "speed"),
-        new (1, "Sharpened Tongue", "lick_damage"),
-        new (1, "Long Tongue", "lick_distance"),
-        new (1, "Damage", "attack_damage"),
-        new (1, "Attack Distance", "attack_distance"),
-        new (1, "Attack Cooldown", "attack_cooldown"),
-        new (1, "Multiattack", "multiattack"),
-        new (1, "Wallbreaker", "wall_breaker"),
-        new (1, "TNTeeth", "explosive_teeth"),
-        new (1, "Icecold Breath", "cold_breath"),
-        new (1, "Lifesteal", "lifesteal"),
-        new (1, "Landmine", "landmine"),
         new (1, "Moaning Bite", "moaning_bite"),
-        new (1, "Cuteness", "cuteness"),
+        new (1, "Speed", "speed"),
+        new (1, "Long Tongue", "lick_distance"),
+        new (1, "Attack Distance", "attack_distance"),
+        new (2, "Cuteness", "cuteness"),
+        new (2, "Damage", "attack_damage"),
+        new (3, "Icecold Breath", "cold_breath"),
+        new (3, "Attack Cooldown", "attack_cooldown"),
+        new (4, "Sharpened Tongue", "lick_damage"),
+        new (4, "Multiattack", "multiattack"),
+        new (5, "Wallbreaker", "wallbreaker"),
+        new (6, "Lifesteal", "lifesteal"),
+        new (6, "Landmine", "landmine"),
     };
-    private static List<string> selectedUpgrades = new ();
+
+    private static List<string> selectedUpgrades = new();
     
     private static GameProgressController instance;
     
@@ -50,16 +55,27 @@ public class GameProgressController : MonoBehaviour
     {
         xp += xpToAdd;
         instance.xpSlider.value = xp / (GetXPNeededToLevelUp() ?? xp);
+        AudioSource.PlayClipAtPoint(instance.xpSound, instance.playerMovement.transform.position);
 
         if (xp >= (GetXPNeededToLevelUp() ?? 10000000000))
         {
-            LevelUp();
+            instance.StartCoroutine(nameof(LevelUpAsSoonAsPossible));
         }
+    }
+
+    IEnumerator LevelUpAsSoonAsPossible()
+    {
+        while (MenuController.IsGamePaused())
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+        LevelUp();
     }
 
     private static void LevelUp()
     {
         level++;
+        AddCoins(10);
         var availableUpgrades = upgrades
             .FindAll(upgrade => upgrade.minLevel <= level && !selectedUpgrades.Contains(upgrade.id))
             .OrderBy(_ => Random.value)
@@ -70,50 +86,55 @@ public class GameProgressController : MonoBehaviour
             selectedUpgrades.Add(upgrade.id);
             if (upgrade.id == "damage_damage")
             {
-                instance.playerController.damage *= 2;
+                instance.playerController.damage *= 1.2f;
                 instance.playerController.currentDamage = instance.playerController.damage;
             } else if (upgrade.id == "speed")
             {
-                instance.playerMovement.runSpeed *= 2;
+                instance.playerMovement.runSpeed *= 1.2f;
                 instance.playerMovement.currentSpeed = instance.playerMovement.runSpeed;
             } else if (upgrade.id == "lick_damage")
             {
                 instance.playerController.lickDamage = instance.playerController.damage / 3;
             } else if (upgrade.id == "lick_distance")
             {
-                instance.playerController.lickRadius *= 2;
+                instance.playerController.lickRadius *= 1.5f;
             } else if (upgrade.id == "attack_distance")
             {
-                instance.playerController.biteRadius *= 2;
+                instance.playerController.biteRadius *= 1.5f;
             } else if (upgrade.id == "attack_cooldown")
             {
-                instance.playerController.biteRadius *= 0.5f;
+                instance.playerController.secondsToLoadBite *= 0.7f;
             } else if (upgrade.id == "multiattack")
             {
-                
-            } else if (upgrade.id == "multiattack")
+                // PlayerController erkennt wenn Upgrade aktiviert ist, es muss also nicht hier programmiert werden
+            } else if (upgrade.id == "wallbreaker")
             {
-                             
-            } else if (upgrade.id == "multiattack")
+                // PlayerController erkennt wenn Upgrade aktiviert ist, es muss also nicht hier programmiert werden
+            } else if (upgrade.id == "cold_breath")
             {
-                                          
-            } else if (upgrade.id == "multiattack")
+                // PlayerController erkennt wenn Upgrade aktiviert ist, es muss also nicht hier programmiert werden
+            } else if (upgrade.id == "lifesteal")
             {
-                                                       
-            } else if (upgrade.id == "multiattack")
+                // PlayerController erkennt wenn Upgrade aktiviert ist, es muss also nicht hier programmiert werden
+            } else if (upgrade.id == "landmine")
             {
-                                                                    
-            } else if (upgrade.id == "multiattack")
+                // PlayerController erkennt wenn Upgrade aktiviert ist, es muss also nicht hier programmiert werden
+            } else if (upgrade.id == "moaning_bite")
             {
-                                                                                 
-            } else if (upgrade.id == "multiattack")
+                // PlayerController erkennt wenn Upgrade aktiviert ist, es muss also nicht hier programmiert werden
+            } else if (upgrade.id == "cuteness")
             {
-                                                                                              
+                // NPCMovement erkennt wenn Upgrade aktiviert ist, es muss also nicht hier programmiert werden
             }
         });
         instance.levelText.text = GetXPNeededToLevelUp() is null ? "Max Level" : "Level " + level;
         xp = 0;
         instance.xpSlider.value = GetXPNeededToLevelUp() is null ? 1 : 0;
+    }
+
+    public static bool IsUpgradeEnabled(string upgradeId)
+    {
+        return selectedUpgrades.Contains(upgradeId);
     }
 
     public static float? GetXPNeededToLevelUp()
@@ -126,6 +147,17 @@ public class GameProgressController : MonoBehaviour
         {
             return null;
         }
+    }
+
+    public static void AddCoins(int amount)
+    {
+        AudioSource.PlayClipAtPoint(instance.coinSound, instance.playerMovement.transform.position);
+        coins += amount;
+    }
+
+    public static bool CanProgress()
+    {
+        return coins >= coinsNeededToProgress;
     }
 }
 

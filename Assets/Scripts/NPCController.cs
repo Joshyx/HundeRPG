@@ -14,6 +14,7 @@ public abstract class NPCController : MonoBehaviour
     private float currentHealth;
     
     public Slider healthSlider;
+    public Consumable coinObject;
 
     protected PlayerController player;
     protected NPCMovement movement;
@@ -37,17 +38,20 @@ public abstract class NPCController : MonoBehaviour
         TryAttack();
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, bool isPlayerDamage = true)
     {
         currentHealth -= amount;
         if (currentHealth <= 0)
         {
+            var obj = Instantiate(coinObject, transform.position, Quaternion.identity);
+            obj.coins = (int) maxHealth / 10;
             Destroy(gameObject);
             return;
         }
         healthSlider.gameObject.SetActive(true);
         healthSlider.value = currentHealth / maxHealth;
-        SpottedPlayer();
+        
+        if(isPlayerDamage) SpottedPlayer();
     }
 
     private void TryAttack()
