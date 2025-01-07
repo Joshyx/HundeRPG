@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionRadius: 1.5
-  explosionEffect: {fileID: 1980162814973012245}
+  explosionAudio: {fileID: 8300000, guid: 2de1abbbf3235841290186e04c574e50, type: 3}
 --- !u!1 &1980162814973012245
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +167,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5106764722770171961
 Transform:
   m_ObjectHideFlags: 0
@@ -200,7 +200,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:

@@ -6,13 +6,17 @@ class PlayerMovement : MonoBehaviour
     bool canMove = true;
 
     private Rigidbody2D rb;
+    private ParticleSystem walkParticles;
 
     public float runSpeed = 5.0f;
     [HideInInspector]
     public float currentSpeed;
+    
+    public AudioClip walkSound;
 
     private void Start()
     {
+        walkParticles = GetComponentInChildren<ParticleSystem>();
         rb = GetComponent<Rigidbody2D>();
         currentSpeed = runSpeed;
     }
@@ -57,6 +61,17 @@ class PlayerMovement : MonoBehaviour
             // limit movement speed diagonally, so you move at 70% speed
             horizontal *= moveLimiter;
             vertical *= moveLimiter;
+        }
+
+        if (horizontal != 0 || vertical != 0)
+        {
+            if(rb.linearVelocity == Vector2.zero) walkParticles.Play();
+            
+            AudioSource.PlayClipAtPoint(walkSound, transform.position);
+        }
+        else
+        {
+            walkParticles.Stop(false, ParticleSystemStopBehavior.StopEmitting);
         }
 
         rb.linearVelocity = new Vector3(horizontal, vertical, 0) * currentSpeed;

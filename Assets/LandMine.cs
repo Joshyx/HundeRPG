@@ -1,11 +1,10 @@
-using System.Collections;
 using UnityEngine;
 
 public class LandMine : MonoBehaviour
 {
     public float explosionRadius = 1.5f;
-    public GameObject explosionEffect;
-    
+    public AudioClip explosionAudio;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(!other.CompareTag("NPC")) return;
@@ -16,15 +15,11 @@ public class LandMine : MonoBehaviour
             npc.GetComponent<NPCController>().TakeDamage(10f, false);
         }
         
-        explosionEffect.SetActive(true);
+        GetComponentInChildren<ParticleSystem>().Play();
         GetComponent<SpriteRenderer>().enabled = false;
-        StartCoroutine(nameof(WaitForDestruction));
-    }
-
-    IEnumerator WaitForDestruction()
-    {
-        yield return new WaitForSeconds(0.2f);
-        Destroy(gameObject);
+        AudioSource.PlayClipAtPoint(explosionAudio, transform.position);
+        
+        Destroy(gameObject, 0.2f);
     }
 
     private void OnDrawGizmos()

@@ -111,6 +111,10 @@ public class PlayerController : MonoBehaviour
             return;
         }
         lastLickTime = DateTime.Now;
+        
+        tongue.SetTrigger("Lick");
+        AudioSource.PlayClipAtPoint(lickSound, transform.position);
+        
         var npc = Physics2D.OverlapCircle(transform.position, lickRadius, LayerMask.GetMask("NPC"))?.gameObject;
 
         if (npc is null)
@@ -119,7 +123,6 @@ public class PlayerController : MonoBehaviour
         }
         
         GameProgressController.AddXP(5f);
-        AudioSource.PlayClipAtPoint(lickSound, transform.position);
         npc.GetComponent<NPCController>().SpottedPlayer();
         if (lickDamage > 0)
         {
@@ -133,7 +136,6 @@ public class PlayerController : MonoBehaviour
         {
             npc.GetComponent<NPCMovement>().Freeze();
         }
-        tongue.SetTrigger("Lick");
     }
 
     public void MoveBiteTarget()
@@ -239,38 +241,27 @@ public class PlayerController : MonoBehaviour
         Instantiate(landMine, transform.position, Quaternion.identity);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private IEnumerator OnTriggerEnter2D(Collider2D other)
     {
         var consumable = other.GetComponent<Consumable>();
-        if (consumable is null) return;
+        if (consumable is null) yield break;
 
         if (!Mathf.Approximately(consumable.damageMultiplier, 1f))
         {
-            StartCoroutine(nameof(IncreaseDamageTemporarily), new Tuple<float, float>(consumable.damageMultiplier, consumable.effectDurationSeconds));
+            currentDamage *= consumable.damageMultiplier;
+            yield return new WaitForSeconds(consumable.effectDurationSeconds);
+            currentDamage = damage;
         }
         if (!Mathf.Approximately(consumable.speedMultiplier, 1f))
         {
-            StartCoroutine(nameof(IncreaseSpeedTemporarily), new Tuple<float, float>(consumable.speedMultiplier, consumable.effectDurationSeconds));
+            movement.currentSpeed *= consumable.speedMultiplier;
+            yield return new WaitForSeconds(consumable.effectDurationSeconds);
+            movement.currentSpeed = movement.runSpeed;
         }
         if (consumable.coins != 0)
         {
             GameProgressController.AddCoins(consumable.coins);
         }
-        Destroy(consumable.gameObject);
-    }
-
-    private IEnumerator IncreaseSpeedTemporarily(Tuple<float, float> args)
-    {
-        movement.currentSpeed *= args.Item1;
-        yield return new WaitForSeconds(args.Item2);
-        movement.currentSpeed = movement.runSpeed;
-    }
-
-    private IEnumerator IncreaseDamageTemporarily(Tuple<float, float> args)
-    {
-        currentDamage *= args.Item1;
-        yield return new WaitForSeconds(args.Item2);
-        currentDamage = damage;
     }
 
     IEnumerator MoveTowardsTargetSlowly(Vector3 target)
