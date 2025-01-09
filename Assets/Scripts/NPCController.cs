@@ -12,9 +12,12 @@ public abstract class NPCController : MonoBehaviour
     private float? startOfAttack = null;
     
     private float currentHealth;
+
+    public float xpOnDamage = 15f;
     
     public Slider healthSlider;
     public Consumable coinObject;
+    public GameObject healthObject;
 
     protected PlayerController player;
     protected NPCMovement movement;
@@ -45,6 +48,9 @@ public abstract class NPCController : MonoBehaviour
         {
             var obj = Instantiate(coinObject, transform.position, Quaternion.identity);
             obj.coins = (int) maxHealth / 10;
+            if(Random.value < 0.2f) Instantiate(healthObject, transform.position + (Vector3)Random.insideUnitCircle, Quaternion.identity);
+            
+            GameProgressController.AddXP(xpOnDamage);
             Destroy(gameObject);
             return;
         }
@@ -88,7 +94,7 @@ public abstract class NPCController : MonoBehaviour
     }
 
     public abstract void SpottedPlayer();
-    public abstract void LostPlayer();
+    protected abstract void LostPlayer();
 
     protected void OnDrawGizmosSelected()
     {

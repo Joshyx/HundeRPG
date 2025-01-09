@@ -41,6 +41,7 @@ public class GameProgressController : MonoBehaviour
     public MenuController menuController;
     public TextMeshProUGUI levelText;
     public Slider xpSlider;
+    public TextMeshProUGUI coinsText;
     private PlayerMovement playerMovement;
     private PlayerController playerController;
 
@@ -54,10 +55,10 @@ public class GameProgressController : MonoBehaviour
     public static void AddXP(float xpToAdd)
     {
         xp += xpToAdd;
-        instance.xpSlider.value = xp / (GetXPNeededToLevelUp() ?? xp);
+        instance.xpSlider.value = xp / GetXPNeededToLevelUp();
         AudioSource.PlayClipAtPoint(instance.xpSound, instance.playerMovement.transform.position);
 
-        if (xp >= (GetXPNeededToLevelUp() ?? 10000000000))
+        if (xp >= GetXPNeededToLevelUp())
         {
             instance.StartCoroutine(nameof(LevelUpAsSoonAsPossible));
         }
@@ -80,9 +81,16 @@ public class GameProgressController : MonoBehaviour
             .FindAll(upgrade => upgrade.minLevel <= level && !selectedUpgrades.Contains(upgrade.id))
             .OrderBy(_ => Random.value)
             .Take(3).ToList();
+
+        if (availableUpgrades.Count == 0)
+        {
+            availableUpgrades.Add(new(0, "Continue", "continue"));
+        }
         
         instance.menuController.ShowLevelUpScreen(level, availableUpgrades, upgrade =>
         {
+            if(upgrade.id == "continue") return;
+            
             selectedUpgrades.Add(upgrade.id);
             if (upgrade.id == "damage_damage")
             {
@@ -127,9 +135,9 @@ public class GameProgressController : MonoBehaviour
                 // NPCMovement erkennt wenn Upgrade aktiviert ist, es muss also nicht hier programmiert werden
             }
         });
-        instance.levelText.text = GetXPNeededToLevelUp() is null ? "Max Level" : "Level " + level;
+        instance.levelText.text = "Level " + level;
         xp = 0;
-        instance.xpSlider.value = GetXPNeededToLevelUp() is null ? 1 : 0;
+        instance.xpSlider.value = 0;
     }
 
     public static bool IsUpgradeEnabled(string upgradeId)
@@ -137,7 +145,7 @@ public class GameProgressController : MonoBehaviour
         return selectedUpgrades.Contains(upgradeId);
     }
 
-    public static float? GetXPNeededToLevelUp()
+    public static float GetXPNeededToLevelUp()
     {
         try
         {
@@ -145,7 +153,7 @@ public class GameProgressController : MonoBehaviour
         }
         catch
         {
-            return null;
+            return xpNeededToLevelUp.Last();
         }
     }
 
@@ -153,6 +161,7 @@ public class GameProgressController : MonoBehaviour
     {
         AudioSource.PlayClipAtPoint(instance.coinSound, instance.playerMovement.transform.position);
         coins += amount;
+        instance.coinsText.text = coins.ToString();
     }
 
     public static bool CanProgress()

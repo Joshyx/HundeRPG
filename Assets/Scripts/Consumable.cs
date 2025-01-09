@@ -5,6 +5,7 @@ public class Consumable : MonoBehaviour
     public float speedMultiplier = 1f;
     public float damageMultiplier = 1f;
     public int coins = 0;
+    public int health = 0;
     public float effectDurationSeconds = 5f;
 
     private void OnTriggerEnter2D(Collider2D other)

@@ -15,7 +15,7 @@ public class ChildController : NPCController
             }
         }
     }
-    public override void LostPlayer()
+    protected override void LostPlayer()
     {
         movement.SetState(NPCMovement.MovementState.IDLE);
         movement.RecalculateIdlePosition();

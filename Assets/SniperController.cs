@@ -7,11 +7,14 @@ public class SniperController : NPCController
     public float fleeDistance;
 
     public float fireRate = 2f;
+    public float bulletSpeed = 5f;
     
     public GameObject bulletPrefab;
     
     private void FixedUpdate()
     {
+        if (MenuController.IsGamePaused()) return;
+        
         var distance = Vector2.Distance(transform.position, player.transform.position);
         if (distance > snipeDistance && distance < viewDistance)
         {
@@ -45,7 +48,7 @@ public class SniperController : NPCController
         }
         lastShot = DateTime.Now;
         var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-        bullet.GetComponent<Rigidbody2D>().linearVelocity = player.transform.position - transform.position;
+        bullet.GetComponent<Rigidbody2D>().linearVelocity = (player.transform.position - transform.position).normalized * bulletSpeed;
     }
 
     public override void SpottedPlayer()
@@ -53,7 +56,7 @@ public class SniperController : NPCController
         movement.SetState(NPCMovement.MovementState.ANGRY);
     }
 
-    public override void LostPlayer()
+    protected override void LostPlayer()
     {
         movement.SetState(NPCMovement.MovementState.IDLE);
     }

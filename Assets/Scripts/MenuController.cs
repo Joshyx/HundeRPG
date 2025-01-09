@@ -22,11 +22,11 @@ public class MenuController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (IsGamePaused())
+            if (IsGamePaused() && pauseScreen.activeSelf)
             {
                 ContinuePausedGame();
             }
-            else
+            else if(!pauseScreen.activeSelf)
             {
                 PauseGame();
             }

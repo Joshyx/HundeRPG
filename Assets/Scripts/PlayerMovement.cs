@@ -12,13 +12,15 @@ class PlayerMovement : MonoBehaviour
     [HideInInspector]
     public float currentSpeed;
     
-    public AudioClip walkSound;
+    public AudioClip[] walkSound;
+    private AudioSource audioSource;
 
     private void Start()
     {
         walkParticles = GetComponentInChildren<ParticleSystem>();
         rb = GetComponent<Rigidbody2D>();
         currentSpeed = runSpeed;
+        audioSource = GetComponentInChildren<AudioSource>();
     }
 
     private void Update()
@@ -66,12 +68,17 @@ class PlayerMovement : MonoBehaviour
         if (horizontal != 0 || vertical != 0)
         {
             if(rb.linearVelocity == Vector2.zero) walkParticles.Play();
-            
-            AudioSource.PlayClipAtPoint(walkSound, transform.position);
+
+            if (!audioSource.isPlaying)
+            {
+                audioSource.clip = walkSound[Random.Range(0, walkSound.Length)];
+                audioSource.Play();
+            }
         }
         else
         {
-            walkParticles.Stop(false, ParticleSystemStopBehavior.StopEmitting);
+            walkParticles.Stop();
+            audioSource.Stop();
         }
 
         rb.linearVelocity = new Vector3(horizontal, vertical, 0) * currentSpeed;

@@ -1,16 +1,17 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
+using Pathfinding;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class NPCMovement : MonoBehaviour
 {
     private GameObject player;
-    private Rigidbody2D rb;
     private SpriteRenderer sr;
+    private AIDestinationSetter destinationSetter;
+    private AIPath aiPath;
+    private GameObject target;
+    private Rigidbody2D rb;
 
-    private bool canMove = true;
     private MovementState state = MovementState.IDLE;
     [HideInInspector]
     public Vector3 idleTargetPos;
@@ -22,24 +23,47 @@ public class NPCMovement : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
+        destinationSetter = GetComponent<AIDestinationSetter>();
+        aiPath = GetComponent<AIPath>();
+        aiPath.maxSpeed = speed;
+        target = new GameObject(name + "_Move_Target");
         idleTargetPos = transform.position;
+        destinationSetter.target = target.transform;
     }
 
+    private bool inPause = false;
     // Update is called once per frame
     private void Update()
     {
-        if (MenuController.IsGamePaused())
+        if (MenuController.IsGamePaused() && !inPause)
         {
             rb.linearVelocity = Vector2.zero;
+            inPause = true;
+            aiPath.canMove = false;
             return;
         }
+        if (!MenuController.IsGamePaused() && inPause)
+        {
+            aiPath.canMove = true;
+            inPause = false;
+        }
+
+        if (aiPath.velocity.magnitude < 0.1f)
+        {
+            var distance = Vector2.Distance(idleTargetPos, player.transform.position);
+            var hit = Physics2D.Raycast(transform.position, idleTargetPos - transform.position, distance, LayerMask.GetMask("Environment", "NPC"));
+            if (hit)
+            {
+                idleTargetPos = (Vector2) transform.position + (hit.normal + Random.insideUnitCircle) * 10;
+            }
+        }
         
-        Move();
+        ChangeMoveTarget();
     }
 
-    void Move() 
+    void ChangeMoveTarget() 
     {
         Vector3 playerPos = player.transform.position;
         Vector3 targetPos = idleTargetPos;
@@ -70,12 +94,7 @@ public class NPCMovement : MonoBehaviour
             sr.flipX = false;
         }
 
-        if (!canMove)
-        {
-            rb.linearVelocity = Vector3.zero;
-            return;
-        }
-        rb.linearVelocity = (targetPos - transform.position).normalized * (speed * (frozen ? 0.8f : 1));
+        target.transform.position = targetPos;
         
         if (Vector2.Distance(transform.position, idleTargetPos) < 0.1f)
         {
@@ -84,39 +103,31 @@ public class NPCMovement : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (state != MovementState.IDLE) return;
-        if (other.gameObject.layer != LayerMask.NameToLayer("Environment")) return;
-        
-        // Neue zufällige Zielposition weg von der Wand wenn eine Wand berührt wird
-        idleTargetPos = (Vector2) transform.position + (other.GetContact(0).normal + Random.insideUnitCircle) * 10;
-    }
-
     public void DisableMovement()
     {
-        canMove = false;
-        rb.linearVelocity = Vector3.zero;
+        aiPath.canMove = false;
     }
 
     public void EnableMovement()
     {
-        canMove = true;
+        aiPath.canMove = true;
     }
     
-    public bool CanMove() => canMove;
+    public bool CanMove() => aiPath.canMove;
 
     private Coroutine lastUnfreezeRoutine;
     public void Freeze(float seconds)
     {
         frozen = true;
-        StopCoroutine(lastUnfreezeRoutine);
+        aiPath.maxSpeed = speed * 0.8f;
+        if (lastUnfreezeRoutine != null) StopCoroutine(lastUnfreezeRoutine);
         lastUnfreezeRoutine = StartCoroutine(nameof(UnfreezeAfter), seconds);
     }
 
     private IEnumerator UnfreezeAfter(float seconds)
     {
         yield return new WaitForSeconds(seconds);
+        aiPath.maxSpeed = speed;
         frozen = false;
     }
 

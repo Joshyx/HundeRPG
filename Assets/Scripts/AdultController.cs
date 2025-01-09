@@ -17,7 +17,7 @@ public class AdultController : NPCController
         movement.SetState(NPCMovement.MovementState.ANGRY);
     }
 
-    public override void LostPlayer()
+    protected override void LostPlayer()
     {
         movement.SetState(NPCMovement.MovementState.IDLE);
         movement.idleTargetPos = player.transform.position;

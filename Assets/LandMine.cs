@@ -10,11 +10,15 @@ public class LandMine : MonoBehaviour
         if(!other.CompareTag("NPC")) return;
         
         var npcs = Physics2D.OverlapCircleAll(other.transform.position, 0.2f, LayerMask.GetMask("NPC"));
+        float xp = 0f;
         foreach (var npc in npcs)
         {
-            npc.GetComponent<NPCController>().TakeDamage(10f, false);
+            var contr = npc.GetComponent<NPCController>();
+            contr.TakeDamage(10f, false);
+            xp += 5f;
         }
         
+        GameProgressController.AddXP(xp);
         GetComponentInChildren<ParticleSystem>().Play();
         GetComponent<SpriteRenderer>().enabled = false;
         AudioSource.PlayClipAtPoint(explosionAudio, transform.position);

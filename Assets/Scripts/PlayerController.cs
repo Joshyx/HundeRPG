@@ -120,21 +120,25 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        
-        GameProgressController.AddXP(5f);
+
+        float xp = 5f;
         npc.GetComponent<NPCController>().SpottedPlayer();
         if (lickDamage > 0)
         {
             npc.GetComponent<NPCController>().TakeDamage(lickDamage);
             if (GameProgressController.IsUpgradeEnabled("lifesteal"))
             {
-                AddHealth(lickDamage * 0.2f);
+                AddHealth(lickDamage * 0.05f);
             }
+
+            xp += 5f;
         }
         if (GameProgressController.IsUpgradeEnabled("cold_breath"))
         {
             npc.GetComponent<NPCMovement>().Freeze(8);
+            xp += 5f;
         }
+        GameProgressController.AddXP(xp);
     }
 
     public void MoveBiteTarget()
@@ -195,13 +199,6 @@ public class PlayerController : MonoBehaviour
     IEnumerator MoveTowardsTargetSlowly(Vector3 target)
     {
         boxCollider.enabled = false;
-        while (Vector2.Distance(transform.position, target) > 0.5f)
-        {
-            rb.linearVelocity = (target - transform.position).normalized * 15;
-            yield return new WaitForEndOfFrame();
-        }
-        boxCollider.enabled = true;
-        rb.linearVelocity = Vector3.zero;
         if(GameProgressController.IsUpgradeEnabled("moaning_bite"))
         {
             AudioSource.PlayClipAtPoint(moanSound, transform.position);
@@ -210,6 +207,13 @@ public class PlayerController : MonoBehaviour
         {
             AudioSource.PlayClipAtPoint(biteSound, transform.position);
         }
+        while (Vector2.Distance(transform.position, target) > 0.5f)
+        {
+            rb.linearVelocity = (target - transform.position).normalized * 15;
+            yield return new WaitForEndOfFrame();
+        }
+        boxCollider.enabled = true;
+        rb.linearVelocity = Vector3.zero;
         List<Collider2D> npcs = new();
         if (GameProgressController.IsUpgradeEnabled("multiattack"))
         {
@@ -220,22 +224,30 @@ public class PlayerController : MonoBehaviour
             npcs.Add(Physics2D.OverlapCircle(transform.position, distanceFromBiteTarget, LayerMask.GetMask("NPC")));
         }
         
+        float xp = 0f;
         foreach (var npc in npcs)
         {
             if (npc is not null)
             {
-                npc.GetComponent<NPCController>().TakeDamage(currentDamage);
+                var contr = npc.GetComponent<NPCController>();
+                contr.TakeDamage(currentDamage);
                 if (GameProgressController.IsUpgradeEnabled("lifesteal"))
                 {
-                    AddHealth(currentDamage * 0.2f);
+                    AddHealth(currentDamage * 0.05f);
                 }
-                GameProgressController.AddXP(15f);
 
                 if (GameProgressController.IsUpgradeEnabled("cold_breath"))
                 {
                     npc.GetComponent<NPCMovement>().Freeze(10);
+                    xp += 5f;
                 }
+                xp += contr.xpOnDamage;
             }
+        }
+
+        if (xp != 0)
+        {
+            GameProgressController.AddXP(xp);
         }
     }
 
@@ -277,6 +289,10 @@ public class PlayerController : MonoBehaviour
         if (consumable.coins != 0)
         {
             GameProgressController.AddCoins(consumable.coins);
+        }
+        if (consumable.health != 0)
+        {
+            AddHealth(consumable.health);
         }
     }
 
