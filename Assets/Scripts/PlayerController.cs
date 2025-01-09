@@ -86,10 +86,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float amount)
     {
-        currentHealth -= damage;
-        healthText.SetText(Mathf.Max(Mathf.RoundToInt(currentHealth), 0).ToString());
+        AddHealth(-amount);
         AudioSource.PlayClipAtPoint(hurtSound, transform.position);
         if (currentHealth <= 0)
         {
@@ -129,12 +128,12 @@ public class PlayerController : MonoBehaviour
             npc.GetComponent<NPCController>().TakeDamage(lickDamage);
             if (GameProgressController.IsUpgradeEnabled("lifesteal"))
             {
-                currentHealth += lickDamage * 0.2f;
+                AddHealth(lickDamage * 0.2f);
             }
         }
         if (GameProgressController.IsUpgradeEnabled("cold_breath"))
         {
-            npc.GetComponent<NPCMovement>().Freeze();
+            npc.GetComponent<NPCMovement>().Freeze(8);
         }
     }
 
@@ -190,14 +189,35 @@ public class PlayerController : MonoBehaviour
     }
     public void Bite()
     {
-        List<Collider2D> npcs = new();
-        if (GameProgressController.IsUpgradeEnabled("multiattack"))
+        StartCoroutine(nameof(MoveTowardsTargetSlowly), biteTarget.transform.position);
+    }
+
+    IEnumerator MoveTowardsTargetSlowly(Vector3 target)
+    {
+        boxCollider.enabled = false;
+        while (Vector2.Distance(transform.position, target) > 0.5f)
         {
-            npcs.AddRange(Physics2D.OverlapCircleAll(biteTarget.transform.position, distanceFromBiteTarget, LayerMask.GetMask("NPC")));
+            rb.linearVelocity = (target - transform.position).normalized * 15;
+            yield return new WaitForEndOfFrame();
+        }
+        boxCollider.enabled = true;
+        rb.linearVelocity = Vector3.zero;
+        if(GameProgressController.IsUpgradeEnabled("moaning_bite"))
+        {
+            AudioSource.PlayClipAtPoint(moanSound, transform.position);
         }
         else
         {
-            npcs.Add(Physics2D.OverlapCircle(biteTarget.transform.position, distanceFromBiteTarget, LayerMask.GetMask("NPC")));
+            AudioSource.PlayClipAtPoint(biteSound, transform.position);
+        }
+        List<Collider2D> npcs = new();
+        if (GameProgressController.IsUpgradeEnabled("multiattack"))
+        {
+            npcs.AddRange(Physics2D.OverlapCircleAll(transform.position, distanceFromBiteTarget, LayerMask.GetMask("NPC")));
+        }
+        else
+        {
+            npcs.Add(Physics2D.OverlapCircle(transform.position, distanceFromBiteTarget, LayerMask.GetMask("NPC")));
         }
         
         foreach (var npc in npcs)
@@ -207,26 +227,16 @@ public class PlayerController : MonoBehaviour
                 npc.GetComponent<NPCController>().TakeDamage(currentDamage);
                 if (GameProgressController.IsUpgradeEnabled("lifesteal"))
                 {
-                    currentHealth += currentDamage * 0.2f;
+                    AddHealth(currentDamage * 0.2f);
                 }
                 GameProgressController.AddXP(15f);
 
                 if (GameProgressController.IsUpgradeEnabled("cold_breath"))
                 {
-                    npc.GetComponent<NPCMovement>().Freeze();
+                    npc.GetComponent<NPCMovement>().Freeze(10);
                 }
             }
         }
-        
-        if(GameProgressController.IsUpgradeEnabled("moaning_bite"))
-        {
-            AudioSource.PlayClipAtPoint(moanSound, transform.position);
-        }
-        else
-        {
-            AudioSource.PlayClipAtPoint(biteSound, transform.position);
-        }
-        StartCoroutine(nameof(MoveTowardsTargetSlowly), biteTarget.transform.position);
     }
 
     private void SpawnLandmine()
@@ -239,6 +249,12 @@ public class PlayerController : MonoBehaviour
         
         lastLandMineTime = DateTime.Now;
         Instantiate(landMine, transform.position, Quaternion.identity);
+    }
+
+    public void AddHealth(float amount)
+    {
+        currentHealth = Mathf.Min(Mathf.Max(currentHealth + amount, 0), maxHealth);
+        healthText.SetText(Mathf.RoundToInt(currentHealth).ToString());
     }
 
     private IEnumerator OnTriggerEnter2D(Collider2D other)
@@ -264,19 +280,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator MoveTowardsTargetSlowly(Vector3 target)
-    {
-        boxCollider.enabled = false;
-        while (Vector2.Distance(transform.position, target) > 0.5f)
-        {
-            rb.linearVelocity = (target - transform.position).normalized * 15;
-            yield return new WaitForEndOfFrame();
-        }
-        boxCollider.enabled = true;
-        rb.linearVelocity = Vector3.zero;
-    }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, lickRadius);

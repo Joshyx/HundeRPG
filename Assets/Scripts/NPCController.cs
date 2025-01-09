@@ -90,7 +90,7 @@ public abstract class NPCController : MonoBehaviour
     public abstract void SpottedPlayer();
     public abstract void LostPlayer();
 
-    private void OnDrawGizmos()
+    protected void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, viewDistance);

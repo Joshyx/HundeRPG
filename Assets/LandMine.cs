@@ -22,7 +22,7 @@ public class LandMine : MonoBehaviour
         Destroy(gameObject, 0.2f);
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, explosionRadius);

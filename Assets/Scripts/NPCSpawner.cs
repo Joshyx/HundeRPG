@@ -44,7 +44,7 @@ public class NPCSpawner : MonoBehaviour
         Instantiate(npc, spawnPos, Quaternion.identity);
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, spawnRadius);

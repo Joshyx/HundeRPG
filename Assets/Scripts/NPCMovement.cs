@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -73,7 +75,7 @@ public class NPCMovement : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
             return;
         }
-        rb.linearVelocity = (targetPos - transform.position).normalized * (speed * (frozen ? 0.5f : 1));
+        rb.linearVelocity = (targetPos - transform.position).normalized * (speed * (frozen ? 0.8f : 1));
         
         if (Vector2.Distance(transform.position, idleTargetPos) < 0.1f)
         {
@@ -101,10 +103,21 @@ public class NPCMovement : MonoBehaviour
     {
         canMove = true;
     }
+    
+    public bool CanMove() => canMove;
 
-    public void Freeze()
+    private Coroutine lastUnfreezeRoutine;
+    public void Freeze(float seconds)
     {
         frozen = true;
+        StopCoroutine(lastUnfreezeRoutine);
+        lastUnfreezeRoutine = StartCoroutine(nameof(UnfreezeAfter), seconds);
+    }
+
+    private IEnumerator UnfreezeAfter(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        frozen = false;
     }
 
     public void RecalculateIdlePosition()
