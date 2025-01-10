@@ -164,7 +164,7 @@ public class PlayerController : MonoBehaviour
         var seconds = DateTime.Now.Subtract(biteStartTime.GetValueOrDefault(DateTime.Now)).TotalSeconds;
         if (seconds >= secondsToLoadBite)
         {
-            biteTarget.color = Color.red;
+            biteTarget.color = Color.black;
         }
     }
     public void StartPreparingBite()
@@ -188,7 +188,7 @@ public class PlayerController : MonoBehaviour
             Bite();
         }
         biteTarget.gameObject.SetActive(false);
-        biteTarget.color = Color.blue;
+        biteTarget.color = Color.black.WithAlpha(0.5f);
         movement.EnableMovement();
     }
     public void Bite()

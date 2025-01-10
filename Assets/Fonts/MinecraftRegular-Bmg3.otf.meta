@@ -10,7 +10,10 @@ TrueTypeFontImporter:
   includeFontData: 1
   fontNames:
   - Minecraft
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: ab1bbf0438d93a0fe9fc8c71845e4638, type: 3}
+  - {fileID: 12800000, guid: ff2ef8e182b2c22fc8eb9c3a85143270, type: 3}
+  - {fileID: 12800000, guid: 953cad661c1dc35f4be2deb10d589d60, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

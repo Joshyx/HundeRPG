@@ -88,6 +88,8 @@ class PlayerMovement : MonoBehaviour
     {
         canMove = false;
         rb.linearVelocity = Vector3.zero;
+        audioSource.Stop();
+        walkParticles.Stop();
     }
 
     public void EnableMovement()
