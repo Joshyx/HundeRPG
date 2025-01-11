@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Wallbreaker
+  m_EditorClassIdentifier: Assembly-CSharp::Upgrade
+  id: wallbreaker
+  name: Ghost
+  description: Lets you pass through objects when jumping for a bite
+  icon: {fileID: 21300000, guid: a2315773360c718eaa88cdf6a631492f, type: 3}
+  minLevel: 7

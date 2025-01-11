@@ -88,6 +88,10 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        if (GameProgressController.IsUpgradeEnabled("resistance"))
+        {
+            amount *= 0.8f;
+        }
         AddHealth(-amount);
         AudioSource.PlayClipAtPoint(hurtSound, transform.position);
         if (currentHealth <= 0)
@@ -120,12 +124,15 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+        
+        var controller = npc.GetComponent<NPCController>();
+        var movement = npc.GetComponent<NPCMovement>();
 
         float xp = 5f;
-        npc.GetComponent<NPCController>().SpottedPlayer();
+        controller.SpottedPlayer();
         if (lickDamage > 0)
         {
-            npc.GetComponent<NPCController>().TakeDamage(lickDamage);
+            controller.TakeDamage(lickDamage);
             if (GameProgressController.IsUpgradeEnabled("lifesteal"))
             {
                 AddHealth(lickDamage * 0.05f);
@@ -135,11 +142,16 @@ public class PlayerController : MonoBehaviour
         }
         if (GameProgressController.IsUpgradeEnabled("cold_breath"))
         {
-            npc.GetComponent<NPCMovement>().Freeze(8);
+            movement.Freeze(8);
             xp += 5f;
         }
         GameProgressController.AddXP(xp);
+        if (GameProgressController.IsUpgradeEnabled("knockback"))
+        {
+            movement.Knockback((npc.transform.position - transform.position).normalized * 10);
+        }
     }
+
 
     public void MoveBiteTarget()
     {
@@ -269,11 +281,12 @@ public class PlayerController : MonoBehaviour
         healthText.SetText(Mathf.RoundToInt(currentHealth).ToString());
     }
 
-    private IEnumerator OnTriggerEnter2D(Collider2D other)
+    public void Consume(Consumable consumable)
     {
-        var consumable = other.GetComponent<Consumable>();
-        if (consumable is null) yield break;
-
+        StartCoroutine(nameof(ConsumeCoroutine), consumable);
+    }
+    private IEnumerator ConsumeCoroutine(Consumable consumable)
+    {
         if (!Mathf.Approximately(consumable.damageMultiplier, 1f))
         {
             currentDamage *= consumable.damageMultiplier;

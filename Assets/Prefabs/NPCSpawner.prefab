@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 7466691035417274221}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.095397, y: -22.821903, z: 5.056347}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,12 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83fa6f8ae029529fdb6a65b87f6c2a37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcs:
-  - {fileID: 4005414645683657261, guid: e9987d0bc49b4c346b5b7827cd33c2fa, type: 3}
+  earlyGameNPCs:
+  - {fileID: 4005414645683657261, guid: ff26a40ecfc1454c6b8a3b45d56fa788, type: 3}
   - {fileID: 4005414645683657261, guid: 16648ee89c17a786480456e106818dab, type: 3}
   - {fileID: 4005414645683657261, guid: cec305123332701c7852167daed9aeb5, type: 3}
+  - {fileID: 4005414645683657261, guid: 4bd60a0b2fdd8a82180964c8dd4fc0b7, type: 3}
+  lateGameNPCs:
   - {fileID: 1622284188404829000, guid: aaa6159db712911ee9da969bdc4aebd2, type: 3}
-  - {fileID: 4005414645683657261, guid: ff26a40ecfc1454c6b8a3b45d56fa788, type: 3}
+  - {fileID: 4005414645683657261, guid: e9987d0bc49b4c346b5b7827cd33c2fa, type: 3}
   spawnRate: 3
   spawnRadius: 30
-  maxNpcs: 7

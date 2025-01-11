@@ -308,11 +308,11 @@ MonoBehaviour:
   maxHealth: 100
   damage: 40
   currentDamage: 0
-  lickRadius: 1.5
+  lickRadius: 2
   lickDamage: 0
   secondsToLoadBite: 0.5
   biteRadius: 3.5
-  distanceFromBiteTarget: 1
+  distanceFromBiteTarget: 1.5
   lickCooldown: 0.5
   landMineCooldown: 1.5
 --- !u!61 &7052652795288484924
@@ -389,8 +389,8 @@ Transform:
   m_GameObject: {fileID: 7542629825971035005}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.7118381, y: 0.21247165, z: -10}
-  m_LocalScale: {x: 0.33333334, y: 0.33333334, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1112066571153832560}
@@ -430,7 +430,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -5456,7 +5456,7 @@ Transform:
   m_GameObject: {fileID: 8574674264438071663}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -5}
+  m_LocalPosition: {x: 0, y: -0.461, z: -5}
   m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

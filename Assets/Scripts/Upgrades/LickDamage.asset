@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: LickDamage
+  m_EditorClassIdentifier: Assembly-CSharp::Upgrade
+  id: lick_damage
+  name: Sharpened Tongue
+  description: Adds spikes to your tongue to deal damage by licking
+  icon: {fileID: 21300000, guid: 1efc37fa0897b83d79c1dc474f45e7dd, type: 3}
+  minLevel: 6

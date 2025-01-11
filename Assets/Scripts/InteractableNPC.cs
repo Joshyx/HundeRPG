@@ -23,18 +23,31 @@ public class InteractableNPC : MonoBehaviour
 
     private void Update()
     {
-        if(MenuController.IsGamePaused()) return;
+        if (MenuController.IsGamePaused()) return;
 
-        if (movement.GetState() != NPCMovement.MovementState.IDLE) return;
+        if (movement.GetState() != NPCMovement.MovementState.IDLE)
+        {
+            dialogText.gameObject.SetActive(false);
+            return;
+        }
+        if (speaking) return;
+        if (Vector3.Distance(player.transform.position, transform.position) > interactDistance)
+        {
+            dialogText.gameObject.SetActive(false);
+            return;
+        };
+        dialogText.gameObject.SetActive(true);
+        dialogText.text = "Press 'E' to interact";
         if (!Input.GetKeyDown(KeyCode.E)) return;
-        if (Vector3.Distance(player.transform.position, transform.position) > interactDistance) return;
         
         StopAllCoroutines();
         StartCoroutine(nameof(Speak));
     }
-
+    
+    private bool speaking;
     private IEnumerator Speak()
     {
+        speaking = true;
         var sentence = sentences[Random.Range(0, sentences.Length)];
         dialogText.gameObject.SetActive(true);
 
@@ -46,5 +59,6 @@ public class InteractableNPC : MonoBehaviour
         }
         yield return new WaitForSeconds(5f);
         dialogText.gameObject.SetActive(false);
+        speaking = false;
     }
 }

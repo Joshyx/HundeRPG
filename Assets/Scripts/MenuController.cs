@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -14,6 +13,9 @@ public class MenuController : MonoBehaviour
     
     public TextMeshProUGUI levelUpText;
     public Button templateUpgradeButton;
+    public TextMeshProUGUI templateUpgradeButtonTitle;
+    public TextMeshProUGUI templateUpgradeButtonDescription;
+    public Image templateUpgradeButtonImage;
     public GameObject upgradeButtonHorizontalView;
     
     private static bool paused = false;
@@ -61,8 +63,10 @@ public class MenuController : MonoBehaviour
         
         foreach (var upgrade in upgrades)
         {
+            templateUpgradeButtonTitle.text = upgrade.name;
+            templateUpgradeButtonDescription.text = upgrade.description;
+            templateUpgradeButtonImage.sprite = upgrade.icon;
             var obj = Instantiate(templateUpgradeButton, upgradeButtonHorizontalView.transform, false);
-            obj.GetComponentInChildren<TextMeshProUGUI>().text = upgrade.name;
             obj.gameObject.SetActive(true);
             obj.onClick.AddListener(() =>
             {

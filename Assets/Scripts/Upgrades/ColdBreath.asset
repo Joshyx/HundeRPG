@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: ColdBreath
+  m_EditorClassIdentifier: Assembly-CSharp::Upgrade
+  id: cold_breath
+  name: Icecold Breath
+  description: You exhale air at 0 Kelvin thus freezing enemies and slowing them
+    down
+  icon: {fileID: 21300000, guid: 41d0cec9107127bc79b08e210231b008, type: 3}
+  minLevel: 5

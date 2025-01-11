@@ -21,12 +21,14 @@ public abstract class NPCController : MonoBehaviour
 
     protected PlayerController player;
     protected NPCMovement movement;
+    protected Animator anim;
 
     private void Start()
     {
         currentHealth = maxHealth;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         movement = GetComponent<NPCMovement>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -43,15 +45,18 @@ public abstract class NPCController : MonoBehaviour
 
     public void TakeDamage(float amount, bool isPlayerDamage = true)
     {
+        anim.SetTrigger("Hurt");
+        startOfAttack = null;
         currentHealth -= amount;
         if (currentHealth <= 0)
         {
+            anim.SetTrigger("Death");
             var obj = Instantiate(coinObject, transform.position, Quaternion.identity);
             obj.coins = (int) maxHealth / 10;
             if(Random.value < 0.2f) Instantiate(healthObject, transform.position + (Vector3)Random.insideUnitCircle, Quaternion.identity);
             
             GameProgressController.AddXP(xpOnDamage);
-            Destroy(gameObject);
+            Destroy(gameObject, 0.5f);
             return;
         }
         healthSlider.gameObject.SetActive(true);
@@ -88,6 +93,7 @@ public abstract class NPCController : MonoBehaviour
             return;
         }
         
+        anim.SetTrigger("Attack");
         player.TakeDamage(damage);
         movement.EnableMovement();
         startOfAttack = null;

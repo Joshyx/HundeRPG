@@ -4,10 +4,10 @@ using Random = UnityEngine.Random;
 
 public class NPCSpawner : MonoBehaviour
 {
-    public List<GameObject> npcs;
+    public List<GameObject> earlyGameNPCs;
+    public List<GameObject> lateGameNPCs;
     public float spawnRate = 3f;
     public float spawnRadius = 30f;
-    public int maxNpcs = 7;
     
     private float timeSinceLastSpawn;
     private GameObject player;
@@ -30,10 +30,10 @@ public class NPCSpawner : MonoBehaviour
         if (timeSinceLastSpawn < spawnRate) return;
         
         var npcCount = GameObject.FindGameObjectsWithTag("NPC").Length;
-        if (npcCount >= maxNpcs) return;
+        if (npcCount >= MaxNPCsForLevel()) return;
         
         timeSinceLastSpawn = 0f;
-        var npc = npcs[Random.Range(0, npcs.Count)];
+        var npc = GetNPCToSpawn();
 
         Vector2 spawnPos;
         do
@@ -42,6 +42,26 @@ public class NPCSpawner : MonoBehaviour
         } while (Vector2.Distance(spawnPos, player.transform.position) < 10f);
         
         Instantiate(npc, spawnPos, Quaternion.identity);
+    }
+
+    private int MaxNPCsForLevel()
+    {
+        var level = GameProgressController.GetLevel();
+        return Mathf.RoundToInt(level * 0.3f + 7);
+    }
+    private GameObject GetNPCToSpawn()
+    {
+        var level = GameProgressController.GetLevel();
+
+        var spawnEarlyGame = level switch
+        {
+            <= 4 => Random.value < 0.7f,
+            <= 7 => Random.value < 0.5f,
+            <= 11 => Random.value < 0.4f,
+            _ => Random.value < 0.3f
+        };
+
+        return spawnEarlyGame ? earlyGameNPCs[Random.Range(0, earlyGameNPCs.Count)] : lateGameNPCs[Random.Range(0, lateGameNPCs.Count)];
     }
 
     private void OnDrawGizmosSelected()

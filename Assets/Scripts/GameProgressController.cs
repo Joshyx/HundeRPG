@@ -16,23 +16,9 @@ public class GameProgressController : MonoBehaviour
     public AudioClip coinSound;
     public AudioClip xpSound;
 
-    private static float[] xpNeededToLevelUp = { 100f, 100f, 120f, 140f, 160f, 180f, 220f, 280f, 350f };
+    private static float[] xpNeededToLevelUp = { 140f, 150f, 150f, 160f, 180f, 200f, 240f, 280f, 350f };
 
-    private static List<Upgrade> upgrades = new List<Upgrade>() {
-        new (1, "Moaning Bite", "moaning_bite"),
-        new (1, "Speed", "speed"),
-        new (1, "Long Tongue", "lick_distance"),
-        new (1, "Attack Distance", "attack_distance"),
-        new (2, "Cuteness", "cuteness"),
-        new (2, "Damage", "attack_damage"),
-        new (3, "Icecold Breath", "cold_breath"),
-        new (3, "Attack Cooldown", "attack_cooldown"),
-        new (4, "Sharpened Tongue", "lick_damage"),
-        new (4, "Multiattack", "multiattack"),
-        new (5, "Wallbreaker", "wallbreaker"),
-        new (6, "Lifesteal", "lifesteal"),
-        new (6, "Landmine", "landmine"),
-    };
+    public List<Upgrade> upgrades;
 
     private static List<string> selectedUpgrades = new();
     
@@ -77,15 +63,10 @@ public class GameProgressController : MonoBehaviour
     {
         level++;
         AddCoins(10);
-        var availableUpgrades = upgrades
+        var availableUpgrades = instance.upgrades
             .FindAll(upgrade => upgrade.minLevel <= level && !selectedUpgrades.Contains(upgrade.id))
             .OrderBy(_ => Random.value)
             .Take(3).ToList();
-
-        if (availableUpgrades.Count == 0)
-        {
-            availableUpgrades.Add(new(0, "Continue", "continue"));
-        }
         
         instance.menuController.ShowLevelUpScreen(level, availableUpgrades, upgrade =>
         {
@@ -112,6 +93,9 @@ public class GameProgressController : MonoBehaviour
             } else if (upgrade.id == "attack_cooldown")
             {
                 instance.playerController.secondsToLoadBite *= 0.7f;
+            } else if (upgrade.id == "health")
+            {
+                instance.playerController.maxHealth *= 1.2f;
             } else if (upgrade.id == "multiattack")
             {
                 // PlayerController erkennt wenn Upgrade aktiviert ist, es muss also nicht hier programmiert werden
@@ -145,7 +129,7 @@ public class GameProgressController : MonoBehaviour
         return selectedUpgrades.Contains(upgradeId);
     }
 
-    public static float GetXPNeededToLevelUp()
+    private static float GetXPNeededToLevelUp()
     {
         try
         {
@@ -156,6 +140,7 @@ public class GameProgressController : MonoBehaviour
             return xpNeededToLevelUp.Last();
         }
     }
+    public static int GetLevel() => level;
 
     public static void AddCoins(int amount)
     {
@@ -170,16 +155,13 @@ public class GameProgressController : MonoBehaviour
     }
 }
 
-public class Upgrade
+[CreateAssetMenu(fileName = "Upgrade", menuName = "ScriptableObjects/Upgrade")]
+public class Upgrade : ScriptableObject
 {
-    public int minLevel;
-    public string name;
     public string id;
-
-    public Upgrade(int minLevel, string name, string id)
-    {
-        this.minLevel = minLevel;
-        this.name = name;
-        this.id = id;
-    }
+    public new string name;
+    [TextArea]
+    public string description;
+    public Sprite icon;
+    public int minLevel;
 }

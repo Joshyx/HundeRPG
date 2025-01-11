@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3773948815042012297}
   - component: {fileID: 1766628949522432181}
-  - component: {fileID: 767804438910324399}
   - component: {fileID: 2784487369516692445}
+  - component: {fileID: 4839381847135721683}
   - component: {fileID: 1529480884024175032}
   m_Layer: 7
   m_Name: Bullet
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 122741304656441948}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.000197, y: -23.154562, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a4fe635b7c49d6e3eacab5a4561aeaa8, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -91,8 +91,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &767804438910324399
-CircleCollider2D:
+--- !u!114 &2784487369516692445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122741304656441948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c40f71a670b4f9516a6f9978c92cf0cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 15
+--- !u!70 &4839381847135721683
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -126,20 +139,8 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.49999997
---- !u!114 &2784487369516692445
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 122741304656441948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c40f71a670b4f9516a6f9978c92cf0cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 15
+  m_Size: {x: 0.74999994, y: 2.4999998}
+  m_Direction: 0
 --- !u!50 &1529480884024175032
 Rigidbody2D:
   serializedVersion: 5

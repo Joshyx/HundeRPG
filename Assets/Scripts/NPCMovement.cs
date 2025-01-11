@@ -11,19 +11,20 @@ public class NPCMovement : MonoBehaviour
     private AIPath aiPath;
     private GameObject target;
     private Rigidbody2D rb;
+    private Animator anim;
 
     private MovementState state = MovementState.IDLE;
     [HideInInspector]
     public Vector3 idleTargetPos;
     
     public float speed = 3;
-    private bool frozen;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        sr = GetComponent<SpriteRenderer>();
+        sr = GetComponentInChildren<SpriteRenderer>();
+        anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         destinationSetter = GetComponent<AIDestinationSetter>();
         aiPath = GetComponent<AIPath>();
@@ -31,13 +32,14 @@ public class NPCMovement : MonoBehaviour
         target = new GameObject(name + "_Move_Target");
         idleTargetPos = transform.position;
         destinationSetter.target = target.transform;
+        anim.SetBool("isRunning", true);
     }
 
     private bool inPause = false;
     // Update is called once per frame
     private void Update()
     {
-        if (MenuController.IsGamePaused() && !inPause)
+        if (MenuController.IsGamePaused())
         {
             rb.linearVelocity = Vector2.zero;
             inPause = true;
@@ -50,7 +52,7 @@ public class NPCMovement : MonoBehaviour
             inPause = false;
         }
 
-        if (aiPath.velocity.magnitude < 0.1f)
+        if (aiPath.velocity.magnitude < 0.1f && state == MovementState.IDLE)
         {
             var distance = Vector2.Distance(idleTargetPos, player.transform.position);
             var hit = Physics2D.Raycast(transform.position, idleTargetPos - transform.position, distance, LayerMask.GetMask("Environment", "NPC"));
@@ -105,12 +107,35 @@ public class NPCMovement : MonoBehaviour
 
     public void DisableMovement()
     {
+        rb.linearVelocity = Vector2.zero;
         aiPath.canMove = false;
+        anim.SetBool("isRunning", false);
     }
 
     public void EnableMovement()
     {
+        if (inKnockback) return;
+        
         aiPath.canMove = true;
+        anim.SetBool("isRunning", true);
+    }
+
+    private bool inKnockback;
+    public void Knockback(Vector2 direction)
+    {
+        StopAllCoroutines();
+        GetComponent<NPCController>().StopAllCoroutines();
+        inKnockback = true;
+        DisableMovement();
+        rb.linearVelocity = direction;
+        StartCoroutine(nameof(EndKnockback));
+    }
+    IEnumerator EndKnockback()
+    {
+        yield return new WaitForSeconds(0.7f);
+        inKnockback = false;
+        rb.linearVelocity = Vector2.zero;
+        EnableMovement();
     }
     
     public bool CanMove() => aiPath.canMove;
@@ -118,7 +143,6 @@ public class NPCMovement : MonoBehaviour
     private Coroutine lastUnfreezeRoutine;
     public void Freeze(float seconds)
     {
-        frozen = true;
         aiPath.maxSpeed = speed * 0.8f;
         if (lastUnfreezeRoutine != null) StopCoroutine(lastUnfreezeRoutine);
         lastUnfreezeRoutine = StartCoroutine(nameof(UnfreezeAfter), seconds);
@@ -128,7 +152,6 @@ public class NPCMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         aiPath.maxSpeed = speed;
-        frozen = false;
     }
 
     public void RecalculateIdlePosition()

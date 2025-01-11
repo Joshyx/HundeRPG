@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9099079591021267571
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3563725434739962749}
+  - component: {fileID: 818823912072501448}
+  m_Layer: 0
+  m_Name: GameProgressController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3563725434739962749
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9099079591021267571}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -34.643284, y: -24.208315, z: -3.9967825}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &818823912072501448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9099079591021267571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e21a4b8b9866b3fe89b86b0b46f7dd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinSound: {fileID: 8300000, guid: 5a95df75542c929d0a98bbff70d03677, type: 3}
+  xpSound: {fileID: 8300000, guid: 1bfe7b111fa48a807a7eebd00aed2ec1, type: 3}
+  upgrades:
+  - {fileID: 11400000, guid: abeeea26b01d272e3b82cc82c6ecb7ee, type: 2}
+  - {fileID: 11400000, guid: b5f72927aa29531caa5728e271704430, type: 2}
+  - {fileID: 11400000, guid: e8f49b61bf1b8e598875534b27cbbb65, type: 2}
+  - {fileID: 11400000, guid: cff2850a837463986ab83fadd621970e, type: 2}
+  - {fileID: 11400000, guid: c4120ad7f54aac32e97e49d23ad6794c, type: 2}
+  - {fileID: 11400000, guid: 9ddf24af23234909a9e4803c69e7fdd5, type: 2}
+  - {fileID: 11400000, guid: 09bcedc48186dca208e379d76e1358a1, type: 2}
+  - {fileID: 11400000, guid: b43b587257436555999bdd07111d0fe5, type: 2}
+  - {fileID: 11400000, guid: ba2890b438fa8cd3fb7d3bc125685bb1, type: 2}
+  - {fileID: 11400000, guid: 79bc62da3e63bc3d2a1e5b59df2468a8, type: 2}
+  - {fileID: 11400000, guid: 64b4a44f19019a83f85829547d2f7c34, type: 2}
+  - {fileID: 11400000, guid: aecc81c1a171a1e3f8ded2580ac16251, type: 2}
+  - {fileID: 11400000, guid: 9d14814692cd26e68bed917b60135cd8, type: 2}
+  - {fileID: 11400000, guid: fbb54aa05916099ddb2e34a5401ee26f, type: 2}
+  - {fileID: 11400000, guid: 6ded05fac4c519418893e4af13f43dc7, type: 2}
+  - {fileID: 11400000, guid: 575783857783f9edbaff95164e0d72ef, type: 2}
+  menuController: {fileID: 0}
+  levelText: {fileID: 0}
+  xpSlider: {fileID: 0}
+  coinsText: {fileID: 0}
