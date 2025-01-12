@@ -7,6 +7,7 @@ class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private ParticleSystem walkParticles;
+    public Animator textureAnimator;
 
     public float runSpeed = 5.0f;
     [HideInInspector]
@@ -69,6 +70,7 @@ class PlayerMovement : MonoBehaviour
         {
             if(rb.linearVelocity == Vector2.zero) walkParticles.Play();
 
+            textureAnimator.SetBool("isRunning", true);
             if (!audioSource.isPlaying)
             {
                 audioSource.clip = walkSound[Random.Range(0, walkSound.Length)];
@@ -79,6 +81,7 @@ class PlayerMovement : MonoBehaviour
         {
             walkParticles.Stop();
             audioSource.Stop();
+            textureAnimator.SetBool("isRunning", false);
         }
 
         rb.linearVelocity = new Vector3(horizontal, vertical, 0) * currentSpeed;

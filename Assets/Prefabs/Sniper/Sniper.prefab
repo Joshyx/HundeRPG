@@ -119,7 +119,7 @@ MonoBehaviour:
   damage: 10
   damageCooldownSeconds: 0.5
   xpOnDamage: 15
-  healthSlider: {fileID: 0}
+  healthSlider: {fileID: 5948291477329246908}
   coinObject: {fileID: 8555697161035628099, guid: d8a2d6f64765242109390c3bcf052e70, type: 3}
   healthObject: {fileID: 2771954506677609679, guid: 45502851ea077445980742ab50a7455d, type: 3}
   snipeDistance: 15

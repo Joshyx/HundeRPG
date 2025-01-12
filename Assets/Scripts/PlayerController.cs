@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public TextMeshProUGUI healthText;
     public MenuController menuController;
     public Animator tongue;
+    public Animator textureAnimator;
     public SpriteRenderer biteTarget;
     public GameObject landMine;
     private Camera cam;
@@ -98,11 +99,14 @@ public class PlayerController : MonoBehaviour
         if (currentHealth <= 0)
         {
             Die();
+            return;
         }
+        textureAnimator.SetTrigger("Hurt");
     }
 
     private void Die()
     {
+        textureAnimator.SetTrigger("Death");
         AudioSource.PlayClipAtPoint(deathSound, transform.position);
         menuController.GameOver();
     }
@@ -206,6 +210,7 @@ public class PlayerController : MonoBehaviour
     }
     public void Bite()
     {
+        textureAnimator.SetTrigger("Attack");
         StartCoroutine(nameof(MoveTowardsTargetSlowly), biteTarget.transform.position);
     }
 
