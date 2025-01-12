@@ -12,6 +12,7 @@ public class NPCMovement : MonoBehaviour
     private GameObject target;
     private Rigidbody2D rb;
     private Animator anim;
+    private ParticleSystem walkParticles;
 
     private MovementState state = MovementState.IDLE;
     [HideInInspector]
@@ -33,6 +34,7 @@ public class NPCMovement : MonoBehaviour
         idleTargetPos = transform.position;
         destinationSetter.target = target.transform;
         anim.SetBool("isRunning", true);
+        walkParticles = GetComponentInChildren<ParticleSystem>();
     }
 
     private bool inPause = false;
@@ -109,6 +111,7 @@ public class NPCMovement : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
         aiPath.canMove = false;
         anim.SetBool("isRunning", false);
+        walkParticles.Stop();
     }
 
     public void EnableMovement()
@@ -117,6 +120,7 @@ public class NPCMovement : MonoBehaviour
         
         aiPath.canMove = true;
         anim.SetBool("isRunning", true);
+        walkParticles.Play();
     }
 
     private bool inKnockback;

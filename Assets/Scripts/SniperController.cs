@@ -49,7 +49,8 @@ public class SniperController : NPCController
         lastShot = DateTime.Now;
         anim.SetTrigger("Shoot");
         var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-        bullet.GetComponent<Rigidbody2D>().linearVelocity = (player.transform.position - transform.position).normalized * bulletSpeed;
+        var playerWalkDir = (Vector3) player.GetComponent<Rigidbody2D>().linearVelocity.normalized;
+        bullet.GetComponent<Rigidbody2D>().linearVelocity = ((player.transform.position + playerWalkDir * 3) - transform.position).normalized * bulletSpeed;
     }
 
     public override void SpottedPlayer()

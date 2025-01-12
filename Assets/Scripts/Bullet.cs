@@ -1,10 +1,10 @@
 using UnityEngine;
-
 public class Bullet : MonoBehaviour
 {
     public float damage = 15f;
     private Rigidbody2D rb;
     private Vector2 velocity;
+    public ParticleSystem explosionParticles;
 
     private void Start()
     {
@@ -32,8 +32,10 @@ public class Bullet : MonoBehaviour
         {
             other.gameObject.GetComponent<PlayerController>().TakeDamage(damage);
         }
-        GetComponentInChildren<ParticleSystem>().Play();
+        explosionParticles.Play();
         GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<Collider2D>().enabled = false;
+        velocity = Vector2.zero;
         Destroy(gameObject, 0.2f);
     }
 }

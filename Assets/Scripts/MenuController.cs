@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ public class MenuController : MonoBehaviour
     public GameObject deathScreen;
     public GameObject pauseScreen;
     public GameObject levelUpScreen;
+
     public GameObject hud;
     
     public TextMeshProUGUI levelUpText;
@@ -19,7 +21,15 @@ public class MenuController : MonoBehaviour
     public Image templateUpgradeButtonImage;
     public GameObject upgradeButtonHorizontalView;
     
-    private static bool paused = true;
+    private static bool paused;
+
+    private void Start()
+    {
+        if (!AuthenticationService.Instance.IsSignedIn)
+        {
+            ShowStartScreen();
+        }
+    }
 
     private void Update()
     {
@@ -41,24 +51,29 @@ public class MenuController : MonoBehaviour
         return paused;
     }
 
+    private void SetIsPaused(bool newPaused)
+    {
+        paused = newPaused;
+        Time.timeScale = newPaused ? 0f : 1f;
+        hud.SetActive(!newPaused);
+    }
+
     private void PauseGame()
     {
-        paused = true;
+        SetIsPaused(true);
         pauseScreen.SetActive(true);
-        hud.SetActive(false);
     }
 
     public void ContinuePausedGame()
     {
-        paused = false;
+        SetIsPaused(false);
         pauseScreen.SetActive(false);
         levelUpScreen.SetActive(false);
-        hud.SetActive(true);
     }
 
     public void ShowLevelUpScreen(int newLevel, List<Upgrade> upgrades, Action<Upgrade> onLevelUp)
     {
-        paused = true;
+        SetIsPaused(true);
         levelUpScreen.SetActive(true);
         levelUpText.text = "Level Up!: Level " + newLevel;
 
@@ -108,7 +123,6 @@ public class MenuController : MonoBehaviour
     private bool isGameOver = false;
     public void GameOver()
     {
-        paused = true;
         deathScreen.SetActive(true);
         isGameOver = true;
     }
@@ -117,6 +131,7 @@ public class MenuController : MonoBehaviour
         if(!isGameOver) return;
         isGameOver = false;
         
+        SetIsPaused(true);
         await Leaderboard.AddScore();
         
         var scores = await Leaderboard.GetScores();
@@ -133,24 +148,29 @@ public class MenuController : MonoBehaviour
 
     public GameObject startGameScreen;
 
+    private void ShowStartScreen()
+    {
+        SetIsPaused(true);
+        startGameScreen.SetActive(true);
+    }
     public void StartGame()
     {
         var playerName = startGameScreen.GetComponentInChildren<TMP_InputField>().text;
         if (playerName.Length < 3) return;
         Leaderboard.Login(playerName);
-        paused = false;
+        SetIsPaused(false);
         startGameScreen.SetActive(false);
     }
 
     public void RestartGame()
     {
-        paused = false;
+        SetIsPaused(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void LoadMainMenu()
     {
-        paused = false;
+        SetIsPaused(false);
         SceneManager.LoadScene("MainMenu");
     }
 }

@@ -1,13 +1,22 @@
 fileFormatVersion: 2
-guid: 98122529de04d66deb0d69c55035d348
+guid: 5b229cd5fad32dc8d9298a1e945ba91e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2564383168423420662
-    second: Punk_hurt_0
+      213: -9192638271177797499
+    second: death_0
   - first:
-      213: -7400074292645236167
-    second: Punk_hurt_1
+      213: 8559509556701815258
+    second: death_1
+  - first:
+      213: -5286180679089938723
+    second: death_2
+  - first:
+      213: -1891855120789479077
+    second: death_3
+  - first:
+      213: -5582970244224541034
+    second: death_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -116,7 +125,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Punk_hurt_0
+      name: death_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,21 +133,21 @@ TextureImporter:
         width: 48
         height: 48
       alignment: 9
-      pivot: {x: 0.25, y: 0.5}
+      pivot: {x: 0.33, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a0d9122581b796cd0800000000000000
-      internalID: -2564383168423420662
+      spriteID: 58059c172303d6080800000000000000
+      internalID: -9192638271177797499
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Punk_hurt_1
+      name: death_1
       rect:
         serializedVersion: 2
         x: 48
@@ -146,15 +155,59 @@ TextureImporter:
         width: 48
         height: 48
       alignment: 9
-      pivot: {x: 0.25, y: 0.5}
+      pivot: {x: 0.33, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 932716b53a7ad4990800000000000000
-      internalID: -7400074292645236167
+      spriteID: ca05268cc4493ff86845a821ff2300c9
+      internalID: 8559509556701815258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_2
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 48
+        height: 48
+      alignment: 9
+      pivot: {x: 0.33, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e6fd364c9b5f75519d171516824d188
+      internalID: -5286180679089938723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: death_3
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 48
+        height: 48
+      alignment: 9
+      pivot: {x: 0.33, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8873e31288b223e8a805063225f2b014
+      internalID: -1891855120789479077
       vertices: []
       indices: 
       edges: []
@@ -163,7 +216,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: f1fab335b2fe1b99b885112eae2f3557
+    spriteID: 07ee900c2db9bda18ba789cca6825ae8
     internalID: 0
     vertices: []
     indices: 
@@ -173,8 +226,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Punk_hurt_0: -2564383168423420662
-      Punk_hurt_1: -7400074292645236167
+      death_0: -9192638271177797499
+      death_1: 8559509556701815258
+      death_2: -5286180679089938723
+      death_3: -1891855120789479077
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

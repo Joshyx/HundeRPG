@@ -45,12 +45,12 @@ public abstract class NPCController : MonoBehaviour
 
     public void TakeDamage(float amount, bool isPlayerDamage = true)
     {
-        anim.SetTrigger("Hurt");
         startOfAttack = null;
         currentHealth -= amount;
         if (currentHealth <= 0)
         {
             movement.DisableMovement();
+            healthSlider.gameObject.SetActive(false);
             anim.SetTrigger("Death");
             var obj = Instantiate(coinObject, transform.position, Quaternion.identity);
             obj.coins = (int) maxHealth / 10;
@@ -60,6 +60,7 @@ public abstract class NPCController : MonoBehaviour
             Destroy(gameObject, 0.5f);
             return;
         }
+        anim.SetTrigger("Hurt");
         healthSlider.gameObject.SetActive(true);
         healthSlider.value = currentHealth / maxHealth;
         
