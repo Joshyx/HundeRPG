@@ -51,6 +51,7 @@ public class NPCMovement : MonoBehaviour
             aiPath.canMove = true;
             inPause = false;
         }
+        anim.SetBool("isRunning", CanMove());
 
         if (aiPath.velocity.magnitude < 0.1f && state == MovementState.IDLE)
         {
@@ -63,6 +64,7 @@ public class NPCMovement : MonoBehaviour
         }
         
         ChangeMoveTarget();
+        Flip();
     }
 
     void ChangeMoveTarget() 
@@ -85,16 +87,6 @@ public class NPCMovement : MonoBehaviour
                 targetPos = transform.position + (-1 * (playerPos - transform.position));
                 break;
         }
-        
-        bool looksRight = transform.position.x < targetPos.x;
-        if (looksRight)
-        {
-            sr.flipX = true;
-        }
-        else
-        {
-            sr.flipX = false;
-        }
 
         target.transform.position = targetPos;
         
@@ -103,6 +95,13 @@ public class NPCMovement : MonoBehaviour
             // Wenn die Zielposition erreicht wurde, eine zufällige neue aussuchen
             RecalculateIdlePosition();
         }
+    }
+
+    private void Flip()
+    {
+        var targetX = CanMove() ? target.transform.position.x : player.transform.position.x;
+        var looksRight = transform.position.x < targetX;
+        sr.flipX = looksRight;
     }
 
     public void DisableMovement()

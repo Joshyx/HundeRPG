@@ -50,6 +50,7 @@ public abstract class NPCController : MonoBehaviour
         currentHealth -= amount;
         if (currentHealth <= 0)
         {
+            movement.DisableMovement();
             anim.SetTrigger("Death");
             var obj = Instantiate(coinObject, transform.position, Quaternion.identity);
             obj.coins = (int) maxHealth / 10;

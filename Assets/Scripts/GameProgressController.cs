@@ -50,6 +50,14 @@ public class GameProgressController : MonoBehaviour
         }
     }
 
+    public static float GetTotalXP()
+    {
+        var previousXp = xpNeededToLevelUp.Take(level - 1).ToList().Sum();
+        return previousXp + xp;
+    }
+
+    public static float GetXP() => xp;
+
     IEnumerator LevelUpAsSoonAsPossible()
     {
         while (MenuController.IsGamePaused())
@@ -129,11 +137,12 @@ public class GameProgressController : MonoBehaviour
         return selectedUpgrades.Contains(upgradeId);
     }
 
-    private static float GetXPNeededToLevelUp()
+    private static float GetXPNeededToLevelUp() => GetXPNeededToLevelUp(level);
+    private static float GetXPNeededToLevelUp(int lvl)
     {
         try
         {
-            return xpNeededToLevelUp[level];
+            return xpNeededToLevelUp[lvl];
         }
         catch
         {
