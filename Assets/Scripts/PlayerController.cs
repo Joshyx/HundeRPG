@@ -108,6 +108,11 @@ public class PlayerController : MonoBehaviour
     {
         textureAnimator.SetTrigger("Death");
         AudioSource.PlayClipAtPoint(deathSound, transform.position);
+        StartCoroutine(nameof(DieSoon));
+    }
+    private IEnumerator DieSoon()
+    {
+        yield return new WaitForSeconds(0.5f);
         menuController.GameOver();
     }
 
@@ -205,7 +210,7 @@ public class PlayerController : MonoBehaviour
             Bite();
         }
         biteTarget.gameObject.SetActive(false);
-        biteTarget.color = Color.black.WithAlpha(0.5f);
+        biteTarget.color = new Color(0, 0, 0, 0.5f);
         movement.EnableMovement();
     }
     public void Bite()
