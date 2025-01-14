@@ -7,15 +7,9 @@ public class NPCSpawner : MonoBehaviour
     public List<GameObject> earlyGameNPCs;
     public List<GameObject> lateGameNPCs;
     public float spawnRate = 3f;
-    public float spawnRadius = 30f;
+    public float spawnRadius = 50f;
     
     private float timeSinceLastSpawn;
-    private GameObject player;
-
-    private void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player");
-    }
 
     private void Update()
     {
@@ -39,7 +33,7 @@ public class NPCSpawner : MonoBehaviour
         do
         { 
             spawnPos = Random.insideUnitSphere * spawnRadius + transform.position;
-        } while (Vector2.Distance(spawnPos, player.transform.position) < 10f);
+        } while (IsPointInView(spawnPos) || IsPointOnCollider(spawnPos));
         
         Instantiate(npc, spawnPos, Quaternion.identity);
     }
@@ -55,13 +49,24 @@ public class NPCSpawner : MonoBehaviour
 
         var spawnEarlyGame = level switch
         {
-            <= 4 => Random.value < 0.7f,
-            <= 7 => Random.value < 0.5f,
-            <= 11 => Random.value < 0.4f,
+            <= 1 => true,
+            <= 4 => Random.value < 0.8f,
+            <= 7 => Random.value < 0.6f,
+            <= 11 => Random.value < 0.5f,
             _ => Random.value < 0.3f
         };
 
         return spawnEarlyGame ? earlyGameNPCs[Random.Range(0, earlyGameNPCs.Count)] : lateGameNPCs[Random.Range(0, lateGameNPCs.Count)];
+    }
+
+    private bool IsPointOnCollider(Vector2 point)
+    {
+        return Physics2D.OverlapCircle(point, 1f, LayerMask.GetMask("Environment"));
+    }
+    private bool IsPointInView(Vector2 pos)
+    {
+        var viewPos = Camera.main.WorldToViewportPoint(pos);
+        return viewPos.x is <= 1 and >= 0 && viewPos.y is <= 1 and >= 0;
     }
 
     private void OnDrawGizmosSelected()

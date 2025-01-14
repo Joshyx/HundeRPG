@@ -183,6 +183,8 @@ public class PlayerController : MonoBehaviour
         }
         biteTarget.transform.position = pos;
         
+        movement.ChangeLookDirection(pos.x - transform.position.x);
+        
         var seconds = DateTime.Now.Subtract(biteStartTime.GetValueOrDefault(DateTime.Now)).TotalSeconds;
         if (seconds >= secondsToLoadBite)
         {

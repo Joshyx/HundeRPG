@@ -23,7 +23,7 @@ public class Leaderboard : MonoBehaviour
     public static async Task Login(string name)
     {
         if (AuthenticationService.Instance.IsSignedIn) return;
-        var password = name + "ASDsdf32@#&^";
+        var password = "ASDsdf32@#&^";
 
         AuthenticationService.Instance.SignedIn += async () =>
         {

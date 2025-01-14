@@ -53,4 +53,4 @@ MonoBehaviour:
   - {fileID: 1622284188404829000, guid: aaa6159db712911ee9da969bdc4aebd2, type: 3}
   - {fileID: 4005414645683657261, guid: e9987d0bc49b4c346b5b7827cd33c2fa, type: 3}
   spawnRate: 3
-  spawnRadius: 30
+  spawnRadius: 50

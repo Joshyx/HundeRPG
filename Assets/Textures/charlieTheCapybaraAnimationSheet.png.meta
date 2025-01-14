@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      charlieTheCapybaraAnimationSheet_0: 746498652366062076
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

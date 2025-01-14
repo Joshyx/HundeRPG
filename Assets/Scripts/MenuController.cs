@@ -22,10 +22,12 @@ public class MenuController : MonoBehaviour
     public GameObject upgradeButtonHorizontalView;
     
     private static bool paused;
+    private bool offline = true;
 
     private void Start()
     {
-        if (!AuthenticationService.Instance.IsSignedIn)
+        offline = Application.internetReachability == NetworkReachability.NotReachable;
+        if (!AuthenticationService.Instance.IsSignedIn || offline)
         {
             ShowStartScreen();
         }
@@ -55,13 +57,13 @@ public class MenuController : MonoBehaviour
     {
         paused = newPaused;
         Time.timeScale = newPaused ? 0f : 1f;
-        hud.SetActive(!newPaused);
     }
 
     private void PauseGame()
     {
         SetIsPaused(true);
         pauseScreen.SetActive(true);
+        hud.SetActive(false);
     }
 
     public void ContinuePausedGame()
@@ -69,11 +71,13 @@ public class MenuController : MonoBehaviour
         SetIsPaused(false);
         pauseScreen.SetActive(false);
         levelUpScreen.SetActive(false);
+        hud.SetActive(true);
     }
 
     public void ShowLevelUpScreen(int newLevel, List<Upgrade> upgrades, Action<Upgrade> onLevelUp)
     {
         SetIsPaused(true);
+        hud.SetActive(false);
         levelUpScreen.SetActive(true);
         levelUpText.text = "Level Up!: Level " + newLevel;
 
@@ -131,7 +135,9 @@ public class MenuController : MonoBehaviour
         if(!isGameOver) return;
         isGameOver = false;
         
+        hud.SetActive(false);
         SetIsPaused(true);
+        if (offline) return;
         await Leaderboard.AddScore();
         
         var scores = await Leaderboard.GetScores();
@@ -147,17 +153,23 @@ public class MenuController : MonoBehaviour
     }
 
     public GameObject startGameScreen;
+    public TextMeshProUGUI startScreenOfflineNotificationText;
 
     private void ShowStartScreen()
     {
         SetIsPaused(true);
+        hud.SetActive(false);
         startGameScreen.SetActive(true);
+        startScreenOfflineNotificationText.gameObject.SetActive(offline);
     }
     public void StartGame()
     {
-        var playerName = startGameScreen.GetComponentInChildren<TMP_InputField>().text;
-        if (playerName.Length < 3) return;
-        Leaderboard.Login(playerName);
+        if (!offline)
+        {
+            var playerName = startGameScreen.GetComponentInChildren<TMP_InputField>().text;
+            if (playerName.Length is < 3 or > 20) return;
+            Leaderboard.Login(playerName);
+        }
         SetIsPaused(false);
         startGameScreen.SetActive(false);
     }

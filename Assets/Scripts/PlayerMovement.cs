@@ -36,22 +36,7 @@ class PlayerMovement : MonoBehaviour
         var horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left
         var vertical = Input.GetAxisRaw("Vertical"); // -1 is down
 
-        if (horizontal < 0) // Moves left
-        {
-            if (transform.localScale.x > 0) // Currently facing right
-            {
-                // Set look direction to left
-                transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
-            }
-        } 
-        else if (horizontal > 0) // Looks right
-        {
-            if (transform.localScale.x < 0) // Currently facing left
-            {
-                // Set look direction to right
-                transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
-            }
-        }
+        ChangeLookDirection(horizontal);
         
         if (!canMove)
         {
@@ -93,10 +78,31 @@ class PlayerMovement : MonoBehaviour
         rb.linearVelocity = Vector3.zero;
         audioSource.Stop();
         walkParticles.Stop();
+        textureAnimator.SetBool("isRunning", false);
     }
 
     public void EnableMovement()
     {
         canMove = true;
+    }
+
+    public void ChangeLookDirection(float direction)
+    {
+        if (direction < 0) // Moves left
+        {
+            if (transform.localScale.x > 0) // Currently facing right
+            {
+                // Set look direction to left
+                transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+            }
+        } 
+        else if (direction > 0) // Looks right
+        {
+            if (transform.localScale.x < 0) // Currently facing left
+            {
+                // Set look direction to right
+                transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+            }
+        }
     }
 }

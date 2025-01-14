@@ -5,11 +5,11 @@ public class SceneLoader : MonoBehaviour
 {
     public void LoadSceneByName(string sceneName)
     {
-        SceneManager.LoadSceneAsync(sceneName);
+        SceneManager.LoadScene(sceneName);
     }
 
     public void LoadSceneByIndex(int sceneIndex)
     {
-        SceneManager.LoadSceneAsync(sceneIndex);
+        SceneManager.LoadScene(sceneIndex);
     }
 }
