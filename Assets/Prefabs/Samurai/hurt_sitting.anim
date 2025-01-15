@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: attack
+  m_Name: hurt_sitting
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,9 +21,9 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 4820097627064502876, guid: a9d272d0e0e2036b6a1e61de4628e512, type: 3}
+      value: {fileID: -620147861879135370, guid: 108b9d8b05c728e18a6f43cddaba61c9, type: 3}
     - time: 0.083333336
-      value: {fileID: -8783391824589953688, guid: a9d272d0e0e2036b6a1e61de4628e512, type: 3}
+      value: {fileID: 4820097627064502876, guid: a9d272d0e0e2036b6a1e61de4628e512, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,8 +46,8 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
+    - {fileID: -620147861879135370, guid: 108b9d8b05c728e18a6f43cddaba61c9, type: 3}
     - {fileID: 4820097627064502876, guid: a9d272d0e0e2036b6a1e61de4628e512, type: 3}
-    - {fileID: -8783391824589953688, guid: a9d272d0e0e2036b6a1e61de4628e512, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

@@ -45,7 +45,6 @@ public abstract class NPCController : MonoBehaviour
 
     public void TakeDamage(float amount, bool isPlayerDamage = true)
     {
-        startOfAttack = null;
         currentHealth -= amount;
         if (currentHealth <= 0)
         {

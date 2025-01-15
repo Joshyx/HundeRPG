@@ -125,7 +125,7 @@ MonoBehaviour:
   snipeDistance: 15
   fleeDistance: 6
   fireRate: 2
-  bulletSpeed: 7
+  bulletSpeed: 5
   bulletPrefab: {fileID: 122741304656441948, guid: d50057e3cb8c8b2b19e30a359ef3d9f4, type: 3}
 --- !u!50 &6799040840224954258
 Rigidbody2D:

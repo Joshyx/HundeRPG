@@ -126,6 +126,10 @@ public class GameProgressController : MonoBehaviour
             {
                 // NPCMovement erkennt wenn Upgrade aktiviert ist, es muss also nicht hier programmiert werden
             }
+            else if (upgrade.id == "hundi")
+            {
+                FindAnyObjectByType<PlayerController>().SwapDogs();
+            }
         });
         instance.levelText.text = "Level " + level;
         xp = 0;

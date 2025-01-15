@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.Services.Authentication;
 using UnityEngine;
@@ -141,12 +142,20 @@ public class MenuController : MonoBehaviour
         await Leaderboard.AddScore();
         
         var scores = await Leaderboard.GetScores();
+        var playerScore = await Leaderboard.GetPlayerScore();
+        var playerInTop10 = scores.Exists(score => score.playerId == playerScore.playerId);
+        if (!playerInTop10)
+        {
+            scores[^1] = new LeaderboardScore(0, 0, 0, "---", "");
+            scores[^2] = playerScore;
+        }
         scores.ForEach(score =>
         {
-            templateLeaderboardEntryNumber.text = score.rank.ToString();
+            templateLeaderboardEntryName.fontStyle = score.playerId == playerScore.playerId ? FontStyles.Bold | FontStyles.Underline : FontStyles.Normal;
+            templateLeaderboardEntryNumber.text = score.rank != 0 ? score.rank.ToString() : "";
             templateLeaderboardEntryName.text = score.playerName.Split("#")[0];
-            templateLeaderboardEntryLevel.text = score.level.ToString();
-            templateLeaderboardEntryXP.text = score.xp.ToString();
+            templateLeaderboardEntryLevel.text = score.rank != 0 ? score.level.ToString() : "";
+            templateLeaderboardEntryXP.text = score.rank != 0 ? score.xp.ToString() : "";
             var obj = Instantiate(templateLeaderboardEntry, leaderBoardLayoutGroup.transform, false);
             obj.SetActive(true);
         });
@@ -171,6 +180,7 @@ public class MenuController : MonoBehaviour
             Leaderboard.Login(playerName);
         }
         SetIsPaused(false);
+        hud.SetActive(true);
         startGameScreen.SetActive(false);
     }
 

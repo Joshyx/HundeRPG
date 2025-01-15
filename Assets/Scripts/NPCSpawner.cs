@@ -51,9 +51,9 @@ public class NPCSpawner : MonoBehaviour
         {
             <= 1 => true,
             <= 4 => Random.value < 0.8f,
-            <= 7 => Random.value < 0.6f,
-            <= 11 => Random.value < 0.5f,
-            _ => Random.value < 0.3f
+            <= 7 => Random.value < 0.7f,
+            <= 11 => Random.value < 0.6f,
+            _ => Random.value < 0.5f
         };
 
         return spawnEarlyGame ? earlyGameNPCs[Random.Range(0, earlyGameNPCs.Count)] : lateGameNPCs[Random.Range(0, lateGameNPCs.Count)];

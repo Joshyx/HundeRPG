@@ -312,7 +312,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Made by Laurens, Felix, Joshi
+  m_text: "\xA9 Magna Mentula\nBy Laurens, Felix, Joshi"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a44b25e152dbf9d899c7a86659c949ed, type: 2}
   m_sharedMaterial: {fileID: -7211076481010970526, guid: a44b25e152dbf9d899c7a86659c949ed, type: 2}
@@ -1279,6 +1279,87 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1156409446}
   m_CullTransparentMesh: 1
+--- !u!1001 &1238402716
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 779521015742944209, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.152
+      objectReference: {fileID: 0}
+    - target: {fileID: 5884343886116770510, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
+      propertyPath: m_Color.b
+      value: 0.6467815
+      objectReference: {fileID: 0}
+    - target: {fileID: 5884343886116770510, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
+      propertyPath: m_Color.g
+      value: 0.8576582
+      objectReference: {fileID: 0}
+    - target: {fileID: 5884343886116770510, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771025676638366410, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
+      propertyPath: m_LocalScale.x
+      value: -300
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771025676638366410, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771025676638366410, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 271
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771025676638366410, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -130
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771025676638366410, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771025676638366410, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771025676638366410, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771025676638366410, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771025676638366410, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771025676638366410, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771025676638366410, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771025676638366410, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8092445717428242483, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
+      propertyPath: m_Name
+      value: Prideflag
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ac9af4dd0b45d44cb8d89a10eb1b1996, type: 3}
 --- !u!1 &1324936619
 GameObject:
   m_ObjectHideFlags: 0
@@ -1558,7 +1639,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 917714262}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -1603,3 +1684,4 @@ SceneRoots:
   - {fileID: 833718211}
   - {fileID: 1622623061}
   - {fileID: 656008328}
+  - {fileID: 1238402716}

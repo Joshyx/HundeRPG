@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Leaderboards;
+using Unity.Services.Leaderboards.Models;
 using UnityEngine;
 
 public class Leaderboard : MonoBehaviour
@@ -65,15 +66,25 @@ public class Leaderboard : MonoBehaviour
         {
             IncludeMetadata = true
         });
-        var res = scoresResponse.Results.ConvertAll(entry =>
-        {
-            var metadata = JsonConvert.DeserializeObject<Dictionary<string, string>>(entry.Metadata);
-            var level = int.Parse(metadata["level"]);
-            var xp = float.Parse(metadata["xp"]);
-            Debug.Log(entry.Metadata);
-            return new LeaderboardScore(entry.Rank, level, xp, entry.PlayerName);
-        });
+        var res = scoresResponse.Results.ConvertAll(EntryToLeaderboardScore);
         return res;
+    }
+
+    public static async Task<LeaderboardScore> GetPlayerScore()
+    {
+        var entry = await LeaderboardsService.Instance.GetPlayerScoreAsync(leaderboardKey, new GetPlayerScoreOptions()
+        {
+            IncludeMetadata = true
+        });
+        return EntryToLeaderboardScore(entry);
+    }
+
+    private static LeaderboardScore EntryToLeaderboardScore(LeaderboardEntry entry)
+    {
+        var metadata = JsonConvert.DeserializeObject<Dictionary<string, string>>(entry.Metadata);
+        var level = int.Parse(metadata["level"]);
+        var xp = float.Parse(metadata["xp"]);
+        return new LeaderboardScore(entry.Rank + 1, level, xp, entry.PlayerName, entry.PlayerId);
     }
 }
 
@@ -83,12 +94,14 @@ public class LeaderboardScore
     public int level;
     public float xp;
     public string playerName;
+    public string playerId;
 
-    public LeaderboardScore(int rank, int level, float xp, string playerName)
+    public LeaderboardScore(int rank, int level, float xp, string playerName, string playerId)
     {
         this.rank = rank;
         this.level = level;
         this.xp = xp;
         this.playerName = playerName;
+        this.playerId = playerId;
     }
 }

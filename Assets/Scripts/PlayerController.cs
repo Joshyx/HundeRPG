@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public MenuController menuController;
     public Animator tongue;
     public Animator textureAnimator;
+    public SpriteRenderer altDogRenderer;
     public SpriteRenderer biteTarget;
     public GameObject landMine;
     private Camera cam;
@@ -320,6 +321,12 @@ public class PlayerController : MonoBehaviour
         {
             AddHealth(consumable.health);
         }
+    }
+
+    public void SwapDogs()
+    {
+        altDogRenderer.gameObject.SetActive(true);
+        textureAnimator.gameObject.SetActive(false);
     }
 
 
