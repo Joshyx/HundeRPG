@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
@@ -10,11 +9,15 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
+    public static bool isInEndlessMode = false;
+    public static float progressModeTimeSinceStart;
+    
     public GameObject deathScreen;
     public GameObject pauseScreen;
     public GameObject levelUpScreen;
 
     public GameObject hud;
+    public TextMeshProUGUI timerText;
     
     public TextMeshProUGUI levelUpText;
     public Button templateUpgradeButton;
@@ -45,6 +48,8 @@ public class MenuController : MonoBehaviour
 
     private void Update()
     {
+        progressModeTimeSinceStart += Time.deltaTime * 1000;
+        timerText.text = TimeSpan.FromMilliseconds(progressModeTimeSinceStart).ToString(@"mm\:ss\.fff");
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (IsGamePaused() && pauseScreen.activeSelf)
@@ -137,41 +142,117 @@ public class MenuController : MonoBehaviour
     public TextMeshProUGUI templateLeaderboardEntryXP;
     public GameObject leaderBoardLayoutGroup;
     
+    public GameObject templateSpeedrunLeaderboardEntryEndless;
+    public TextMeshProUGUI templateSpeedrunLeaderboardEntryTimeEndless;
+    public TextMeshProUGUI templateSpeedrunLeaderboardEntryNameEndless;
+    public TextMeshProUGUI templateSpeedrunLeaderboardEntryRankEndless;
+    public GameObject speedrunLeaderBoardLayoutGroupEndless;
+    
+    public GameObject progressModeDeathScreen;
+    
     private bool isGameOver = false;
+    private bool isGameFinished = false;
     public void GameOver()
     {
+        if (!isInEndlessMode)
+        {
+            hud.SetActive(false);
+            progressModeDeathScreen.SetActive(true);
+            SwitchToMenuMusic();
+            SetIsPaused(true);
+            return;
+        }
         deathScreen.SetActive(true);
         isGameOver = true;
         SwitchToMenuMusic();
     }
     private async void FixedUpdate()
     {
-        if(!isGameOver) return;
-        isGameOver = false;
-        
-        hud.SetActive(false);
-        SetIsPaused(true);
-        if (offline) return;
-        await Leaderboard.AddScore();
-        
-        var scores = await Leaderboard.GetScores();
-        var playerScore = await Leaderboard.GetPlayerScore();
-        var playerInTop10 = scores.Exists(score => score.playerId == playerScore.playerId);
-        if (!playerInTop10)
+        if (isGameOver)
         {
-            scores[^1] = new LeaderboardScore(0, 0, 0, "---", "");
-            scores[^2] = playerScore;
+            isGameOver = false;
+
+            hud.SetActive(false);
+            SetIsPaused(true);
+            if (offline) return;
+            await Leaderboard.AddScore();
+
+            var scores = await Leaderboard.GetScores();
+            var playerScore = await Leaderboard.GetPlayerScore();
+            var playerInTop10 = scores.Exists(score => score.playerId == playerScore.playerId);
+            if (!playerInTop10)
+            {
+                scores[^1] = new LeaderboardScore(0, 0, 0, "---", "");
+                scores[^2] = playerScore;
+            }
+
+            scores.ForEach(score =>
+            {
+                templateLeaderboardEntryName.fontStyle = score.playerId == playerScore.playerId
+                    ? FontStyles.Bold | FontStyles.Underline
+                    : FontStyles.Normal;
+                templateLeaderboardEntryNumber.text = score.rank != 0 ? score.rank.ToString() : "";
+                templateLeaderboardEntryName.text = score.playerName.Split("#")[0];
+                templateLeaderboardEntryLevel.text = score.rank != 0 ? score.level.ToString() : "";
+                templateLeaderboardEntryXP.text = score.rank != 0 ? score.xp.ToString() : "";
+                var obj = Instantiate(templateLeaderboardEntry, leaderBoardLayoutGroup.transform, false);
+                obj.SetActive(true);
+            });
+            
+            await Leaderboard.AddTimeEndless();
+
+            var speedrunScores = await Leaderboard.GetSpeedrunScoresEndless();
+            var playerSpeedrunScore = await Leaderboard.GetPlayerSpeedrunScoreEndless();
+            var playerInTop10Speedrun = scores.Exists(score => score.playerId == playerScore.playerId);
+            if (!playerInTop10Speedrun)
+            {
+                speedrunScores[^1] = new SpeedrunScore(0, 0,  "---", "");
+                speedrunScores[^2] = playerSpeedrunScore;
+            }
+
+            speedrunScores.ForEach(score =>
+            {
+                var time = TimeSpan.FromMilliseconds(score.ms).ToString(@"mm\:ss\.fff");
+                templateSpeedrunLeaderboardEntryNameEndless.fontStyle = score.playerId == playerScore.playerId
+                    ? FontStyles.Bold | FontStyles.Underline
+                    : FontStyles.Normal;
+                templateSpeedrunLeaderboardEntryRankEndless.text = score.rank != 0 ? score.rank.ToString() : "";
+                templateSpeedrunLeaderboardEntryNameEndless.text = score.playerName.Split("#")[0];
+                templateSpeedrunLeaderboardEntryTimeEndless.text = score.rank != 0 ? time : "";
+                var obj = Instantiate(templateSpeedrunLeaderboardEntryEndless, speedrunLeaderBoardLayoutGroupEndless.transform, false);
+                obj.SetActive(true);
+            });
         }
-        scores.ForEach(score =>
+        else if (isGameFinished)
         {
-            templateLeaderboardEntryName.fontStyle = score.playerId == playerScore.playerId ? FontStyles.Bold | FontStyles.Underline : FontStyles.Normal;
-            templateLeaderboardEntryNumber.text = score.rank != 0 ? score.rank.ToString() : "";
-            templateLeaderboardEntryName.text = score.playerName.Split("#")[0];
-            templateLeaderboardEntryLevel.text = score.rank != 0 ? score.level.ToString() : "";
-            templateLeaderboardEntryXP.text = score.rank != 0 ? score.xp.ToString() : "";
-            var obj = Instantiate(templateLeaderboardEntry, leaderBoardLayoutGroup.transform, false);
-            obj.SetActive(true);
-        });
+            isGameFinished = false;
+            if (offline) return;
+            await Leaderboard.AddTime();
+
+            var scores = await Leaderboard.GetSpeedrunScores();
+            var playerScore = await Leaderboard.GetPlayerSpeedrunScore();
+            var playerInTop10 = scores.Exists(score => score.playerId == playerScore.playerId);
+            if (!playerInTop10)
+            {
+                scores[^1] = new SpeedrunScore(0, 0,  "---", "");
+                scores[^2] = playerScore;
+            }
+
+            scores.ForEach(score =>
+            {
+                var time = TimeSpan.FromMilliseconds(score.ms).ToString(@"mm\:ss\.fff");
+                templateSpeedrunLeaderboardEntryName.fontStyle = score.playerId == playerScore.playerId
+                    ? FontStyles.Bold | FontStyles.Underline
+                    : FontStyles.Normal;
+                templateSpeedrunLeaderboardEntryRank.text = score.rank != 0 ? score.rank.ToString() : "";
+                templateSpeedrunLeaderboardEntryName.text = score.playerName.Split("#")[0];
+                templateSpeedrunLeaderboardEntryTime.text = score.rank != 0 ? time : "";
+                var obj = Instantiate(templateSpeedrunLeaderboardEntry, speedrunLeaderBoardLayoutGroup.transform, false);
+                obj.SetActive(true);
+            });
+            progressModeTimeSinceStart = 0f;
+            GameProgressController.ResetData();
+        }
     }
 
     public GameObject startGameScreen;
@@ -186,6 +267,8 @@ public class MenuController : MonoBehaviour
     }
     public void StartGame()
     {
+        progressModeTimeSinceStart = 0f;
+        
         if (!offline)
         {
             var playerName = startGameScreen.GetComponentInChildren<TMP_InputField>().text;
@@ -196,6 +279,22 @@ public class MenuController : MonoBehaviour
         hud.SetActive(true);
         startGameScreen.SetActive(false);
         SwitchToGameMusic();
+    }
+
+    public GameObject templateSpeedrunLeaderboardEntry;
+    public TextMeshProUGUI templateSpeedrunLeaderboardEntryTime;
+    public TextMeshProUGUI templateSpeedrunLeaderboardEntryName;
+    public TextMeshProUGUI templateSpeedrunLeaderboardEntryRank;
+    public GameObject speedrunLeaderBoardLayoutGroup;
+    
+    public GameObject finishGameScreen;
+    public void FinishedGame()
+    {
+        SetIsPaused(false);
+        SwitchToMenuMusic();
+        finishGameScreen.SetActive(true);
+        hud.SetActive(false);
+        isGameFinished = true;
     }
 
     public void RestartGame()

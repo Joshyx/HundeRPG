@@ -640,7 +640,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e5521e0bdc526e0eab240a447f2856f, type: 3}
+  m_Script: {fileID: 11500000, guid: eb823c9b3bb79239887a1f5536208f14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1060115549
@@ -1266,6 +1266,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!1001 &1505998776
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2736510089391696889, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_Name
+      value: Bushaltestelle
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914024357210789165, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 12.506247
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914024357210789165, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.7981396
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914024357210789165, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914024357210789165, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914024357210789165, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914024357210789165, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914024357210789165, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914024357210789165, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914024357210789165, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914024357210789165, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
 --- !u!1 &1512333766
 GameObject:
   m_ObjectHideFlags: 0
@@ -1837,6 +1894,10 @@ PrefabInstance:
       propertyPath: leaderboardKey
       value: oberstedten
       objectReference: {fileID: 0}
+    - target: {fileID: 7064622162705941349, guid: 6b3780d98ab38f7e1879240bad4769f9, type: 3}
+      propertyPath: speedrunLeaderboardKey
+      value: oberstedtenSpeedrun
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2334,3 +2395,4 @@ SceneRoots:
   - {fileID: 2320158488305943289}
   - {fileID: 513335714835053736}
   - {fileID: 8209312063804069484}
+  - {fileID: 1505998776}

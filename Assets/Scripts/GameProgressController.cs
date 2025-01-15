@@ -12,7 +12,6 @@ public class GameProgressController : MonoBehaviour
     private static int level = 1;
     private static float xp = 0;
     private static int coins = 0;
-    private static int coinsNeededToProgress = 200;
     public AudioClip coinSound;
     public AudioClip xpSound;
 
@@ -33,6 +32,7 @@ public class GameProgressController : MonoBehaviour
 
     private void Start()
     {
+        ResetData();
         instance = this;
         playerMovement = FindFirstObjectByType<PlayerMovement>();
         playerController = playerMovement.GetComponent<PlayerController>();
@@ -162,8 +162,13 @@ public class GameProgressController : MonoBehaviour
         instance.coinsText.text = coins.ToString();
     }
 
-    public static bool CanProgress()
+    public static int GetCoins() => coins;
+
+    public static void ResetData()
     {
-        return coins >= coinsNeededToProgress;
+        coins = 0;
+        selectedUpgrades.Clear();
+        xp = 0;
+        level = 1;
     }
 }

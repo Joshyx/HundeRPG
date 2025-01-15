@@ -11,6 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Oberstedten.unity
     guid: 3ac3660eb3aa51ccb9ba026d9724c739
+  - enabled: 1
+    path: Assets/Scenes/Outdoor.unity
+    guid: 6c2d7bfa071355fa8862b469a4ef96a8
+  - enabled: 1
+    path: Assets/Scenes/Island.unity
+    guid: d1276979cf0eb18888bc90fa09a98475
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

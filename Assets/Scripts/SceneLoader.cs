@@ -3,13 +3,27 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    public void LoadSceneByName(string sceneName)
+    public void LoadProgressMode()
     {
-        SceneManager.LoadScene(sceneName);
+        MenuController.isInEndlessMode = false;
+        SceneManager.LoadScene(1);
     }
 
-    public void LoadSceneByIndex(int sceneIndex)
+    public void LoadEndlessModeOberstedten()
     {
-        SceneManager.LoadScene(sceneIndex);
+        MenuController.isInEndlessMode = true;
+        SceneManager.LoadScene(1);
+    }
+
+    public void LoadEndlessModeNature()
+    {
+        MenuController.isInEndlessMode = true;
+        SceneManager.LoadScene(2);
+    }
+
+    public void LoadEndlessModeIsland()
+    {
+        MenuController.isInEndlessMode = true;
+        SceneManager.LoadScene(3);
     }
 }
