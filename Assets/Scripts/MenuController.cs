@@ -1,6 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
 using Unity.Services.Authentication;
 using UnityEngine;
@@ -21,6 +22,9 @@ public class MenuController : MonoBehaviour
     public TextMeshProUGUI templateUpgradeButtonDescription;
     public Image templateUpgradeButtonImage;
     public GameObject upgradeButtonHorizontalView;
+
+    public AudioSource menuMusic;
+    public AudioSource gameMusic;
     
     private static bool paused;
     private bool offline = true;
@@ -30,7 +34,12 @@ public class MenuController : MonoBehaviour
         offline = Application.internetReachability == NetworkReachability.NotReachable;
         if (!AuthenticationService.Instance.IsSignedIn || offline)
         {
+            menuMusic.Play();
             ShowStartScreen();
+        }
+        else
+        {
+            gameMusic.Play();
         }
     }
 
@@ -62,6 +71,7 @@ public class MenuController : MonoBehaviour
 
     private void PauseGame()
     {
+        SwitchToMenuMusic();
         SetIsPaused(true);
         pauseScreen.SetActive(true);
         hud.SetActive(false);
@@ -69,6 +79,7 @@ public class MenuController : MonoBehaviour
 
     public void ContinuePausedGame()
     {
+        SwitchToGameMusic();
         SetIsPaused(false);
         pauseScreen.SetActive(false);
         levelUpScreen.SetActive(false);
@@ -77,6 +88,7 @@ public class MenuController : MonoBehaviour
 
     public void ShowLevelUpScreen(int newLevel, List<Upgrade> upgrades, Action<Upgrade> onLevelUp)
     {
+        SwitchToMenuMusic();
         SetIsPaused(true);
         hud.SetActive(false);
         levelUpScreen.SetActive(true);
@@ -130,6 +142,7 @@ public class MenuController : MonoBehaviour
     {
         deathScreen.SetActive(true);
         isGameOver = true;
+        SwitchToMenuMusic();
     }
     private async void FixedUpdate()
     {
@@ -182,6 +195,7 @@ public class MenuController : MonoBehaviour
         SetIsPaused(false);
         hud.SetActive(true);
         startGameScreen.SetActive(false);
+        SwitchToGameMusic();
     }
 
     public void RestartGame()
@@ -194,5 +208,28 @@ public class MenuController : MonoBehaviour
     {
         SetIsPaused(false);
         SceneManager.LoadScene("MainMenu");
+    }
+
+    private async void SwitchToGameMusic()
+    {
+        gameMusic.Play();
+        for (int i = 1; i <= 20; i++)
+        {
+            gameMusic.volume = i / 40f;
+            menuMusic.volume = 1 - i / 20f;
+            await Task.Delay(100);
+        }
+        menuMusic.Stop();
+    }
+    private async void SwitchToMenuMusic()
+    {
+        menuMusic.Play();
+        for (int i = 1; i <= 20; i++)
+        {
+            menuMusic.volume = i / 20f;
+            gameMusic.volume = 0.5f - i / 40f;
+            await Task.Delay(100);
+        }
+        gameMusic.Stop();
     }
 }

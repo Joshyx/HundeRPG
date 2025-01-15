@@ -8,6 +8,7 @@ public class NPCSpawner : MonoBehaviour
     public List<GameObject> lateGameNPCs;
     public float spawnRate = 3f;
     public float spawnRadius = 50f;
+    public int maxSpawnAdd = 7;
     
     private float timeSinceLastSpawn;
 
@@ -41,7 +42,7 @@ public class NPCSpawner : MonoBehaviour
     private int MaxNPCsForLevel()
     {
         var level = GameProgressController.GetLevel();
-        return Mathf.RoundToInt(level * 0.3f + 7);
+        return Mathf.RoundToInt(level * 0.3f + maxSpawnAdd);
     }
     private GameObject GetNPCToSpawn()
     {
