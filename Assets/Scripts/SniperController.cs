@@ -11,6 +11,8 @@ public class SniperController : NPCController
     
     public GameObject bulletPrefab;
     
+    public AudioClip fireSound;
+    
     private void FixedUpdate()
     {
         if (MenuController.IsGamePaused()) return;
@@ -48,6 +50,7 @@ public class SniperController : NPCController
         }
         lastShot = DateTime.Now;
         anim.SetTrigger("Shoot");
+        AudioSource.PlayClipAtPoint(fireSound, transform.position);
         var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
         var playerWalkDir = (Vector3) player.GetComponent<Rigidbody2D>().linearVelocity.normalized;
         bullet.GetComponent<Rigidbody2D>().linearVelocity = ((player.transform.position + playerWalkDir * 3) - transform.position).normalized * bulletSpeed;

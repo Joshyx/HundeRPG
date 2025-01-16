@@ -20,6 +20,9 @@ public class NPCMovement : MonoBehaviour
     
     public float speed = 3;
     
+    public AudioClip[] walkSound;
+    private AudioSource audioSource;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -35,6 +38,7 @@ public class NPCMovement : MonoBehaviour
         destinationSetter.target = target.transform;
         anim.SetBool("isRunning", true);
         walkParticles = GetComponentInChildren<ParticleSystem>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private bool inPause = false;
@@ -54,6 +58,19 @@ public class NPCMovement : MonoBehaviour
             inPause = false;
         }
         anim.SetBool("isRunning", CanMove());
+
+        if (CanMove())
+        {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.clip = walkSound[Random.Range(0, walkSound.Length)];
+                audioSource.Play();
+            }
+        }
+        else
+        {
+            audioSource.Stop();
+        }
 
         if (aiPath.velocity.magnitude < 0.1f && state == MovementState.IDLE)
         {

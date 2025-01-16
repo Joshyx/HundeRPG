@@ -318,6 +318,7 @@ GameObject:
   - component: {fileID: 3232497106839928155}
   - component: {fileID: 9038525347730435909}
   - component: {fileID: 8215243897545746740}
+  - component: {fileID: 401275124616812950}
   m_Layer: 6
   m_Name: Kind
   m_TagString: NPC
@@ -446,6 +447,8 @@ MonoBehaviour:
   healthSlider: {fileID: 2491851591501169060}
   coinObject: {fileID: 8555697161035628099, guid: d8a2d6f64765242109390c3bcf052e70, type: 3}
   healthObject: {fileID: 2771954506677609679, guid: 45502851ea077445980742ab50a7455d, type: 3}
+  deathSound: {fileID: 8300000, guid: d49b53b602443d949b07170d43d9c4ba, type: 3}
+  hurtSound: {fileID: 8300000, guid: 01ea84d6663e75f4b9d9fd42f4469a42, type: 3}
 --- !u!114 &1580604830518913270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -460,6 +463,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idleTargetPos: {x: 0, y: 0, z: 0}
   speed: 4
+  walkSound:
+  - {fileID: 8300000, guid: 8b8cabbd318dc10449a445e475e7540e, type: 3}
+  - {fileID: 8300000, guid: a331be55541d0de4f90d8950f8e04d6b, type: 3}
+  - {fileID: 8300000, guid: 6f9929d122e76554e9f4ce714c16ad80, type: 3}
 --- !u!61 &5468774221538869668
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -524,6 +531,7 @@ MonoBehaviour:
   - Mama?
   - Papa?
   - Hilfe  da kommt Diddy :,(
+  speekAudioClip: {fileID: 0}
 --- !u!114 &3232497106839928155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -608,6 +616,103 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   target: {fileID: 1810597777830940150}
+--- !u!82 &401275124616812950
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4005414645683657261}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 8b8cabbd318dc10449a445e475e7540e, type: 3}
+  m_Resource: {fileID: 8300000, guid: 8b8cabbd318dc10449a445e475e7540e, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.125
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &5361436164445942797
 GameObject:
   m_ObjectHideFlags: 0

@@ -26,4 +26,9 @@ public class SceneLoader : MonoBehaviour
         MenuController.isInEndlessMode = true;
         SceneManager.LoadScene(3);
     }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 }

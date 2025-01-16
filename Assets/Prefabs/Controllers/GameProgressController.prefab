@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e21a4b8b9866b3fe89b86b0b46f7dd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinSound: {fileID: 8300000, guid: 5a95df75542c929d0a98bbff70d03677, type: 3}
-  xpSound: {fileID: 8300000, guid: 1bfe7b111fa48a807a7eebd00aed2ec1, type: 3}
+  coinSound: {fileID: 8300000, guid: 10b9da4e8d1c9c1499dfa50c03c71231, type: 3}
+  xpSound: {fileID: 8300000, guid: 1bd4af26d5fc1cf42b665b88048f14b2, type: 3}
+  levelUpSound: {fileID: 8300000, guid: 1e806cbd9b6086840b42f94a6d422183, type: 3}
   upgrades:
   - {fileID: 11400000, guid: abeeea26b01d272e3b82cc82c6ecb7ee, type: 2}
   - {fileID: 11400000, guid: b5f72927aa29531caa5728e271704430, type: 2}

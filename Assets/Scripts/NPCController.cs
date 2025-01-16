@@ -22,6 +22,9 @@ public abstract class NPCController : MonoBehaviour
     protected PlayerController player;
     protected NPCMovement movement;
     protected Animator anim;
+    
+    public AudioClip deathSound;
+    public AudioClip hurtSound;
 
     private void Start()
     {
@@ -48,6 +51,7 @@ public abstract class NPCController : MonoBehaviour
         currentHealth -= amount;
         if (currentHealth <= 0)
         {
+            AudioSource.PlayClipAtPoint(deathSound, transform.position);
             movement.DisableMovement();
             healthSlider.gameObject.SetActive(false);
             anim.SetTrigger("Death");
@@ -62,6 +66,7 @@ public abstract class NPCController : MonoBehaviour
         anim.SetTrigger("Hurt");
         healthSlider.gameObject.SetActive(true);
         healthSlider.value = currentHealth / maxHealth;
+        AudioSource.PlayClipAtPoint(hurtSound, transform.position);
         
         if(isPlayerDamage) SpottedPlayer();
     }

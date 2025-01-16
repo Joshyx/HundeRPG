@@ -5174,6 +5174,7 @@ GameObject:
   - component: {fileID: 893019235098454201}
   - component: {fileID: 7710128536181721112}
   - component: {fileID: 5159777008795225182}
+  - component: {fileID: 4102351078343150563}
   m_Layer: 6
   m_Name: Man
   m_TagString: NPC
@@ -5220,6 +5221,8 @@ MonoBehaviour:
   healthSlider: {fileID: 3220916218516776394}
   coinObject: {fileID: 8555697161035628099, guid: d8a2d6f64765242109390c3bcf052e70, type: 3}
   healthObject: {fileID: 2771954506677609679, guid: 45502851ea077445980742ab50a7455d, type: 3}
+  deathSound: {fileID: 8300000, guid: 625c61786f9a94f418eed803f50b8259, type: 3}
+  hurtSound: {fileID: 8300000, guid: 01ea84d6663e75f4b9d9fd42f4469a42, type: 3}
 --- !u!114 &1065989949633546002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5234,6 +5237,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idleTargetPos: {x: 0, y: 0, z: 0}
   speed: 3
+  walkSound:
+  - {fileID: 8300000, guid: 8b8cabbd318dc10449a445e475e7540e, type: 3}
+  - {fileID: 8300000, guid: a331be55541d0de4f90d8950f8e04d6b, type: 3}
+  - {fileID: 8300000, guid: 6f9929d122e76554e9f4ce714c16ad80, type: 3}
 --- !u!50 &4022143649320613453
 Rigidbody2D:
   serializedVersion: 5
@@ -5324,6 +5331,7 @@ MonoBehaviour:
   - Fuck ich hab mein Kind verloren
   - "Jetzt nen D\xF6ner k\xE4m crazy"
   - Hallo Herr Rudolph!
+  speekAudioClip: {fileID: 8300000, guid: ba8d8fba7304c004e8767324e6a0c945, type: 3}
 --- !u!114 &893019235098454201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5408,6 +5416,103 @@ MonoBehaviour:
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
   constrainInsideGraph: 0
+--- !u!82 &4102351078343150563
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4005414645683657261}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 8b8cabbd318dc10449a445e475e7540e, type: 3}
+  m_Resource: {fileID: 8300000, guid: 8b8cabbd318dc10449a445e475e7540e, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.125
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4273696562480282499
 GameObject:
   m_ObjectHideFlags: 0

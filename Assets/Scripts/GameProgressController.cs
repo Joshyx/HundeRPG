@@ -14,6 +14,7 @@ public class GameProgressController : MonoBehaviour
     private static int coins = 0;
     public AudioClip coinSound;
     public AudioClip xpSound;
+    public AudioClip levelUpSound;
 
     private static float[] xpNeededToLevelUp = { 140f, 150f, 150f, 160f, 180f, 200f, 240f, 280f, 350f };
 
@@ -71,6 +72,7 @@ public class GameProgressController : MonoBehaviour
     {
         level++;
         AddCoins(10);
+        AudioSource.PlayClipAtPoint(instance.levelUpSound, instance.transform.position);
         var availableUpgrades = instance.upgrades
             .FindAll(upgrade => upgrade.minLevel <= level && !selectedUpgrades.Contains(upgrade.id))
             .OrderBy(_ => Random.value)

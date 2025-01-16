@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip lickSound;
     public AudioClip biteSound;
     public AudioClip moanSound;
+    public AudioClip growlSound;
     
     public float maxHealth = 100f;
     public float damage = 40f;
@@ -194,6 +195,7 @@ public class PlayerController : MonoBehaviour
     }
     public void StartPreparingBite()
     {
+        AudioSource.PlayClipAtPoint(growlSound, transform.position);
         biteStartTime = DateTime.Now;
         biteTarget.gameObject.SetActive(true);
         movement.DisableMovement();

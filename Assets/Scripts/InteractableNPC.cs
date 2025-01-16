@@ -14,6 +14,8 @@ public class InteractableNPC : MonoBehaviour
     private float interactDistance = 2f;
     private GameObject player;
     private NPCMovement movement;
+    
+    public AudioClip speekAudioClip;
 
     private void Start()
     {
@@ -40,6 +42,7 @@ public class InteractableNPC : MonoBehaviour
         dialogText.text = "Press 'E' to interact";
         if (!Input.GetKeyDown(KeyCode.E)) return;
         
+        AudioSource.PlayClipAtPoint(speekAudioClip, transform.position);
         StopAllCoroutines();
         StartCoroutine(nameof(Speak));
     }

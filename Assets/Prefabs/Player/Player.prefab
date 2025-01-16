@@ -286,10 +286,10 @@ MonoBehaviour:
   runSpeed: 5
   currentSpeed: 0
   walkSound:
-  - {fileID: 8300000, guid: 5ccda279d7b85e4ebb42bf4992fed27d, type: 3}
-  - {fileID: 8300000, guid: 57b20342aa7fc3ba78ac1f8aadd84fd1, type: 3}
-  - {fileID: 8300000, guid: 57b20342aa7fc3ba78ac1f8aadd84fd1, type: 3}
-  - {fileID: 8300000, guid: 97c23b09f8f838dffb3e85621157e956, type: 3}
+  - {fileID: 8300000, guid: 5f763335b63969e46a9dba23b8a25f17, type: 3}
+  - {fileID: 8300000, guid: 619895bf1863b674ba57ca8f64b41d0f, type: 3}
+  - {fileID: 8300000, guid: ce24307a333b1cc47bd97283ac25818a, type: 3}
+  - {fileID: 8300000, guid: 3db9da45c0ac96a469e23c05631bfc14, type: 3}
 --- !u!50 &6006848627854378363
 Rigidbody2D:
   serializedVersion: 5
@@ -337,10 +337,11 @@ MonoBehaviour:
   biteTarget: {fileID: 168558332320008021}
   landMine: {fileID: 284203351664869, guid: 9edd6f2625c7e03208460eff47305991, type: 3}
   hurtSound: {fileID: 8300000, guid: 35db5b02afc98f1929b247e9447c970e, type: 3}
-  deathSound: {fileID: 8300000, guid: 35db5b02afc98f1929b247e9447c970e, type: 3}
-  lickSound: {fileID: 8300000, guid: ea72a4001332986eaa788ce58732c9ae, type: 3}
-  biteSound: {fileID: 8300000, guid: 35db5b02afc98f1929b247e9447c970e, type: 3}
-  moanSound: {fileID: 8300000, guid: 35db5b02afc98f1929b247e9447c970e, type: 3}
+  deathSound: {fileID: 8300000, guid: 02e631dabc41116469a0589a70ac4d18, type: 3}
+  lickSound: {fileID: 8300000, guid: dd2ac2e32430fc04483bb573332cc4c9, type: 3}
+  biteSound: {fileID: 8300000, guid: d23e4688b531905478ffd3c9363cbd3e, type: 3}
+  moanSound: {fileID: 8300000, guid: dd2ac2e32430fc04483bb573332cc4c9, type: 3}
+  growlSound: {fileID: 8300000, guid: c04abc81b073cd945bb5322ce964b9ea, type: 3}
   maxHealth: 100
   damage: 40
   currentDamage: 0
