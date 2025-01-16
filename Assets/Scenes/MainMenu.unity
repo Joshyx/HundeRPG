@@ -793,6 +793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51d00c2fd92af5446b62cf7bd2ed213f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clickSound: {fileID: 8300000, guid: 1285ad873ecc54a42a8573bc83bb661e, type: 3}
 --- !u!114 &382087078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -939,6 +940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51d00c2fd92af5446b62cf7bd2ed213f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clickSound: {fileID: 8300000, guid: 1285ad873ecc54a42a8573bc83bb661e, type: 3}
 --- !u!114 &417032990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1246,7 +1248,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 7 vs Wild
+  m_text: Ruinen
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a44b25e152dbf9d899c7a86659c949ed, type: 2}
   m_sharedMaterial: {fileID: -7211076481010970526, guid: a44b25e152dbf9d899c7a86659c949ed, type: 2}
@@ -1471,6 +1473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51d00c2fd92af5446b62cf7bd2ed213f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clickSound: {fileID: 8300000, guid: 1285ad873ecc54a42a8573bc83bb661e, type: 3}
 --- !u!1 &570887831
 GameObject:
   m_ObjectHideFlags: 0
@@ -1610,6 +1613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51d00c2fd92af5446b62cf7bd2ed213f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clickSound: {fileID: 8300000, guid: 1285ad873ecc54a42a8573bc83bb661e, type: 3}
 --- !u!114 &581848093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3193,6 +3197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51d00c2fd92af5446b62cf7bd2ed213f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clickSound: {fileID: 8300000, guid: 1285ad873ecc54a42a8573bc83bb661e, type: 3}
 --- !u!114 &1345673615
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -531,7 +531,7 @@ MonoBehaviour:
   - Mama?
   - Papa?
   - Hilfe  da kommt Diddy :,(
-  speekAudioClip: {fileID: 0}
+  speekAudioClip: {fileID: 8300000, guid: 0f4d92813e626d44fa0b6e2956f80e4c, type: 3}
 --- !u!114 &3232497106839928155
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -292,6 +292,7 @@ MonoBehaviour:
   health: 10
   effectDurationSeconds: 5
   pickupText: {fileID: 958394881114446920}
+  pickupSound: {fileID: 8300000, guid: 6eea66d0a0aa059499737133d8375a4b, type: 3}
 --- !u!1 &4258488655613993605
 GameObject:
   m_ObjectHideFlags: 0

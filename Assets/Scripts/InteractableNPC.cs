@@ -42,7 +42,7 @@ public class InteractableNPC : MonoBehaviour
         dialogText.text = "Press 'E' to interact";
         if (!Input.GetKeyDown(KeyCode.E)) return;
         
-        AudioSource.PlayClipAtPoint(speekAudioClip, transform.position);
+        AudioSource.PlayClipAtPoint(speekAudioClip, player.transform.position, 10f);
         StopAllCoroutines();
         StartCoroutine(nameof(Speak));
     }

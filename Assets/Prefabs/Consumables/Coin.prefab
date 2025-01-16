@@ -246,6 +246,7 @@ MonoBehaviour:
   health: 0
   effectDurationSeconds: 5
   pickupText: {fileID: 5533037184185460328}
+  pickupSound: {fileID: 0}
 --- !u!61 &4996374940263482556
 BoxCollider2D:
   m_ObjectHideFlags: 0

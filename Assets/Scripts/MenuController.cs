@@ -84,6 +84,7 @@ public class MenuController : MonoBehaviour
 
     public void ContinuePausedGame()
     {
+        AudioSource.PlayClipAtPoint(SceneLoader.staticClickSound, transform.position);
         SwitchToGameMusic();
         SetIsPaused(false);
         pauseScreen.SetActive(false);
@@ -267,6 +268,7 @@ public class MenuController : MonoBehaviour
     }
     public void StartGame()
     {
+        AudioSource.PlayClipAtPoint(SceneLoader.staticClickSound, transform.position);
         progressModeTimeSinceStart = 0f;
         
         if (!offline)
@@ -299,12 +301,14 @@ public class MenuController : MonoBehaviour
 
     public void RestartGame()
     {
+        AudioSource.PlayClipAtPoint(SceneLoader.staticClickSound, transform.position);
         SetIsPaused(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void LoadMainMenu()
     {
+        AudioSource.PlayClipAtPoint(SceneLoader.staticClickSound, transform.position);
         SetIsPaused(false);
         SceneManager.LoadScene("MainMenu");
     }
@@ -314,7 +318,7 @@ public class MenuController : MonoBehaviour
         gameMusic.Play();
         for (int i = 1; i <= 20; i++)
         {
-            gameMusic.volume = i / 40f;
+            gameMusic.volume = i / 160f;
             menuMusic.volume = 1 - i / 20f;
             await Task.Delay(100);
         }
@@ -326,7 +330,7 @@ public class MenuController : MonoBehaviour
         for (int i = 1; i <= 20; i++)
         {
             menuMusic.volume = i / 20f;
-            gameMusic.volume = 0.5f - i / 40f;
+            gameMusic.volume = 0.125f - i / 160f;
             await Task.Delay(100);
         }
         gameMusic.Stop();
