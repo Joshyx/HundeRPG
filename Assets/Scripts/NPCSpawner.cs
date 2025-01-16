@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -6,11 +7,16 @@ public class NPCSpawner : MonoBehaviour
 {
     public List<GameObject> earlyGameNPCs;
     public List<GameObject> lateGameNPCs;
-    public float spawnRate = 3f;
     public float spawnRadius = 50f;
     public int maxSpawnAdd = 7;
     
     private float timeSinceLastSpawn;
+    private PlayerController player;
+
+    private void Start()
+    {
+        player = FindAnyObjectByType<PlayerController>();
+    }
 
     private void Update()
     {
@@ -22,7 +28,7 @@ public class NPCSpawner : MonoBehaviour
     private void TrySpawnNPC()
     {
         timeSinceLastSpawn += Time.deltaTime;
-        if (timeSinceLastSpawn < spawnRate) return;
+        if (timeSinceLastSpawn < 2f) return;
         
         var npcCount = GameObject.FindGameObjectsWithTag("NPC").Length;
         if (npcCount >= MaxNPCsForLevel()) return;
@@ -33,7 +39,7 @@ public class NPCSpawner : MonoBehaviour
         Vector2 spawnPos;
         do
         { 
-            spawnPos = Random.insideUnitSphere * spawnRadius + transform.position;
+            spawnPos = Random.insideUnitSphere * spawnRadius + player.transform.position;
         } while (IsPointInView(spawnPos) || IsPointOnCollider(spawnPos));
         
         Instantiate(npc, spawnPos, Quaternion.identity);
@@ -68,11 +74,5 @@ public class NPCSpawner : MonoBehaviour
     {
         var viewPos = Camera.main.WorldToViewportPoint(pos);
         return viewPos.x is <= 1 and >= 0 && viewPos.y is <= 1 and >= 0;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, spawnRadius);
     }
 }

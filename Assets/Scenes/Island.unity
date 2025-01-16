@@ -73156,6 +73156,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bushaltestelle
       objectReference: {fileID: 0}
+    - target: {fileID: 4445285457697061835, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6914024357210789165, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -55.81

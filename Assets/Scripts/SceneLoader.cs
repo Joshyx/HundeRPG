@@ -5,12 +5,6 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour
 {
     public AudioClip clickSound;
-    public static AudioClip staticClickSound;
-
-    private void Start()
-    {
-        staticClickSound = clickSound;
-    }
 
     public void LoadProgressMode()
     {
@@ -42,7 +36,7 @@ public class SceneLoader : MonoBehaviour
 
     public void ExitGame()
     {
-        AudioSource.PlayClipAtPoint(clickSound, transform.position);
+        AudioSource.PlayClipAtPoint(clickSound, Camera.main.transform.position);
         Application.Quit();
     }
 }

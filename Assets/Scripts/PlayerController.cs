@@ -180,7 +180,7 @@ public class PlayerController : MonoBehaviour
             var wall = Physics2D.OverlapCircle(pos, biteTargetRadius, LayerMask.GetMask("Environment"));
             if (wall)
             {
-                pos = hit.point + hit.normal * biteTargetRadius;
+                pos += (pos - (Vector2) wall.transform.position).normalized * biteTargetRadius / 2;
             }
         }
         biteTarget.transform.position = pos;

@@ -59,18 +59,18 @@ public class NPCMovement : MonoBehaviour
         }
         anim.SetBool("isRunning", CanMove());
 
-        if (CanMove())
-        {
-            if (!audioSource.isPlaying)
-            {
-                audioSource.clip = walkSound[Random.Range(0, walkSound.Length)];
-                audioSource.Play();
-            }
-        }
-        else
-        {
-            audioSource.Stop();
-        }
+        // if (CanMove())
+        // {
+        //     if (!audioSource.isPlaying)
+        //     {
+        //         audioSource.clip = walkSound[Random.Range(0, walkSound.Length)];
+        //         audioSource.Play();
+        //     }
+        // }
+        // else
+        // {
+        //     audioSource.Stop();
+        // }
 
         if (aiPath.velocity.magnitude < 0.1f && state == MovementState.IDLE)
         {

@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 12632858}
   - component: {fileID: 12632860}
   - component: {fileID: 12632859}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Stone Lantern
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -760,7 +760,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3424950906544577702, guid: 91a50151f29d5bdfc931cbc7bb19fee6, type: 3}
       propertyPath: spawnRadius
-      value: 70
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7466691035417274221, guid: 91a50151f29d5bdfc931cbc7bb19fee6, type: 3}
       propertyPath: m_Name
@@ -1214,7 +1214,7 @@ GameObject:
   - component: {fileID: 364579201}
   - component: {fileID: 364579203}
   - component: {fileID: 364579202}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Tree T1 Lower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1324,7 +1324,7 @@ GameObject:
   - component: {fileID: 367171440}
   - component: {fileID: 367171442}
   - component: {fileID: 367171441}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Road Sign W
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1621,7 +1621,7 @@ GameObject:
   - component: {fileID: 481940168}
   - component: {fileID: 481940170}
   - component: {fileID: 481940169}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Pillar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1760,7 +1760,7 @@ GameObject:
   - component: {fileID: 508340908}
   - component: {fileID: 508340910}
   - component: {fileID: 508340909}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Pillar Broken
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1901,7 +1901,7 @@ GameObject:
   - component: {fileID: 521412579}
   - component: {fileID: 521412581}
   - component: {fileID: 521412580}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Well
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83710,7 +83710,7 @@ GameObject:
   - component: {fileID: 576603130}
   - component: {fileID: 576603132}
   - component: {fileID: 576603131}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Tree T3 Lower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83977,7 +83977,7 @@ GameObject:
   - component: {fileID: 663608660}
   - component: {fileID: 663608662}
   - component: {fileID: 663608661}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Statue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84340,6 +84340,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1957915013312287233, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1957915013312287233, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1957915013312287233, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1957915013312287233, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2736510089391696889, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
       propertyPath: m_Name
       value: Bushaltestelle
@@ -84348,10 +84364,6 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300158, guid: 29c9cded5e558164aaf8c9bf08aa1510, type: 3}
-    - target: {fileID: 2753475495580549443, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2884114762119699656, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
       propertyPath: m_Radius
       value: 2.6729836
@@ -84359,6 +84371,22 @@ PrefabInstance:
     - target: {fileID: 2884114762119699656, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
       propertyPath: m_Offset.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349471823335839517, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349471823335839517, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349471823335839517, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5349471823335839517, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.87
       objectReference: {fileID: 0}
     - target: {fileID: 6914024357210789165, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
       propertyPath: m_LocalScale.x
@@ -84412,6 +84440,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9178974643223809914, guid: 0f2521966a4e70539872eb62bcff85c0, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1010346472}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -85154,7 +85186,7 @@ GameObject:
   - component: {fileID: 890413130}
   - component: {fileID: 890413132}
   - component: {fileID: 890413131}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Road Sign E
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85297,7 +85329,7 @@ GameObject:
   - component: {fileID: 927356957}
   - component: {fileID: 927356959}
   - component: {fileID: 927356958}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Gravestone C (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85439,7 +85471,7 @@ GameObject:
   - component: {fileID: 943845689}
   - component: {fileID: 943845688}
   - component: {fileID: 943845690}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93082,11 +93114,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1112066571153832560, guid: 96ed7eb646aedbbbf8c46df8c7b07162, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.4494538
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1112066571153832560, guid: 96ed7eb646aedbbbf8c46df8c7b07162, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.619908
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1112066571153832560, guid: 96ed7eb646aedbbbf8c46df8c7b07162, type: 3}
       propertyPath: m_LocalPosition.z
@@ -93468,7 +93500,7 @@ GameObject:
   - component: {fileID: 1059382434}
   - component: {fileID: 1059382436}
   - component: {fileID: 1059382435}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Rune Pillar X2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93607,7 +93639,7 @@ GameObject:
   - component: {fileID: 1066674157}
   - component: {fileID: 1066674159}
   - component: {fileID: 1066674158}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Stone Coffin V
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93747,7 +93779,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1090512127}
   - component: {fileID: 1090512128}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Tree T3 Upper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93834,7 +93866,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1187508265}
   - component: {fileID: 1187508266}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Tree T1 Upper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93922,7 +93954,7 @@ GameObject:
   - component: {fileID: 1227996792}
   - component: {fileID: 1227996794}
   - component: {fileID: 1227996793}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Stone Coffin V (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94063,7 +94095,7 @@ GameObject:
   - component: {fileID: 1268916141}
   - component: {fileID: 1268916143}
   - component: {fileID: 1268916142}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Gravestone A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94204,7 +94236,7 @@ GameObject:
   - component: {fileID: 1300026642}
   - component: {fileID: 1300026644}
   - component: {fileID: 1300026643}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Stone Bench S
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94559,7 +94591,7 @@ GameObject:
   - component: {fileID: 1427630708}
   - component: {fileID: 1427630710}
   - component: {fileID: 1427630709}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Rune Pillar Broken
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94700,7 +94732,7 @@ GameObject:
   - component: {fileID: 1439715166}
   - component: {fileID: 1439715168}
   - component: {fileID: 1439715167}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Gravestone C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95310,7 +95342,7 @@ GameObject:
   - component: {fileID: 1556061696}
   - component: {fileID: 1556061698}
   - component: {fileID: 1556061697}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Altar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95457,7 +95489,7 @@ GameObject:
   - component: {fileID: 1601429545}
   - component: {fileID: 1601429547}
   - component: {fileID: 1601429546}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Gravestone C (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95800,7 +95832,7 @@ GameObject:
   - component: {fileID: 1824685608}
   - component: {fileID: 1824685610}
   - component: {fileID: 1824685609}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Gravestone C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96156,6 +96188,42 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1010346472}
+    - target: {fileID: 237559412890655690, guid: e1b796398f889c588a5a9dda812571c7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -277.40002
+      objectReference: {fileID: 0}
+    - target: {fileID: 602583984941558117, guid: e1b796398f889c588a5a9dda812571c7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 602583984941558117, guid: e1b796398f889c588a5a9dda812571c7, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 602583984941558117, guid: e1b796398f889c588a5a9dda812571c7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 602583984941558117, guid: e1b796398f889c588a5a9dda812571c7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 802960450849525951, guid: e1b796398f889c588a5a9dda812571c7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -75.271484
+      objectReference: {fileID: 0}
+    - target: {fileID: 1298088602395925432, guid: e1b796398f889c588a5a9dda812571c7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -594.86053
+      objectReference: {fileID: 0}
+    - target: {fileID: 2633113148247858476, guid: e1b796398f889c588a5a9dda812571c7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -25.090515
+      objectReference: {fileID: 0}
+    - target: {fileID: 2810478604633097047, guid: e1b796398f889c588a5a9dda812571c7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -125.452515
+      objectReference: {fileID: 0}
     - target: {fileID: 3147809694798191476, guid: e1b796398f889c588a5a9dda812571c7, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -96207,6 +96275,10 @@ PrefabInstance:
     - target: {fileID: 4287117214425399129, guid: e1b796398f889c588a5a9dda812571c7, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -25.090515
+      objectReference: {fileID: 0}
+    - target: {fileID: 4484937728924787845, guid: e1b796398f889c588a5a9dda812571c7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -152.33002
       objectReference: {fileID: 0}
     - target: {fileID: 5976379824245334947, guid: e1b796398f889c588a5a9dda812571c7, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -96315,6 +96387,10 @@ PrefabInstance:
     - target: {fileID: 7213857249689571646, guid: e1b796398f889c588a5a9dda812571c7, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8080710321049619725, guid: e1b796398f889c588a5a9dda812571c7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -592.99994
       objectReference: {fileID: 0}
     - target: {fileID: 8558502026052744497, guid: e1b796398f889c588a5a9dda812571c7, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -96548,7 +96624,7 @@ GameObject:
   - component: {fileID: 1948323788}
   - component: {fileID: 1948323790}
   - component: {fileID: 1948323789}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Gravestone A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97216,7 +97292,7 @@ GameObject:
   - component: {fileID: 2074224437}
   - component: {fileID: 2074224439}
   - component: {fileID: 2074224438}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TX Props Rune Pillar X3
   m_TagString: Untagged
   m_Icon: {fileID: 0}

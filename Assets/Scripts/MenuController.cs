@@ -28,6 +28,7 @@ public class MenuController : MonoBehaviour
 
     public AudioSource menuMusic;
     public AudioSource gameMusic;
+    public AudioClip clickSound;
     
     private static bool paused;
     private bool offline = true;
@@ -84,7 +85,7 @@ public class MenuController : MonoBehaviour
 
     public void ContinuePausedGame()
     {
-        AudioSource.PlayClipAtPoint(SceneLoader.staticClickSound, transform.position);
+        AudioSource.PlayClipAtPoint(clickSound, transform.position);
         SwitchToGameMusic();
         SetIsPaused(false);
         pauseScreen.SetActive(false);
@@ -98,7 +99,7 @@ public class MenuController : MonoBehaviour
         SetIsPaused(true);
         hud.SetActive(false);
         levelUpScreen.SetActive(true);
-        levelUpText.text = "Level Up!: Level " + newLevel;
+        levelUpText.text = "Reached Level " + newLevel + "!";
 
         if (upgrades.Count <= 0)
         {
@@ -268,7 +269,7 @@ public class MenuController : MonoBehaviour
     }
     public void StartGame()
     {
-        AudioSource.PlayClipAtPoint(SceneLoader.staticClickSound, transform.position);
+        AudioSource.PlayClipAtPoint(clickSound, transform.position);
         progressModeTimeSinceStart = 0f;
         
         if (!offline)
@@ -301,14 +302,14 @@ public class MenuController : MonoBehaviour
 
     public void RestartGame()
     {
-        AudioSource.PlayClipAtPoint(SceneLoader.staticClickSound, transform.position);
+        AudioSource.PlayClipAtPoint(clickSound, transform.position);
         SetIsPaused(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void LoadMainMenu()
     {
-        AudioSource.PlayClipAtPoint(SceneLoader.staticClickSound, transform.position);
+        AudioSource.PlayClipAtPoint(clickSound, transform.position);
         SetIsPaused(false);
         SceneManager.LoadScene("MainMenu");
     }
@@ -322,6 +323,12 @@ public class MenuController : MonoBehaviour
             menuMusic.volume = 1 - i / 20f;
             await Task.Delay(100);
         }
+
+        if (!gameMusic.isPlaying)
+        {
+            gameMusic.volume = 1f;
+            gameMusic.Play();
+        }
         menuMusic.Stop();
     }
     private async void SwitchToMenuMusic()
@@ -332,6 +339,12 @@ public class MenuController : MonoBehaviour
             menuMusic.volume = i / 20f;
             gameMusic.volume = 0.125f - i / 160f;
             await Task.Delay(100);
+        }
+        
+        if (!menuMusic.isPlaying)
+        {
+            menuMusic.volume = 1f;
+            menuMusic.Play();
         }
         gameMusic.Stop();
     }
